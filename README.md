@@ -14,3 +14,5 @@ Eu como professor quero poder enviar moedas para os alunos que merecem reconheci
 - Empresas parceiras:
 Eu como empresa parceira quero me cadastrar no sistema para oferecer uma vantagem em troca de moedas.
 Eu como empresa parceira quero cadastrar uma vantagem para que os alunos cadastrados possam trocá-la por moedas.
+
+
