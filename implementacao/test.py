@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy as SQLalq
 
 #model
@@ -29,7 +29,7 @@ def mostra():
     users = db.session.execute(db.select(Usuario).order_by(Usuario.nome)).scalars()
     return render_template("/mostraUser.html", users=users)
 
-@app.route("/criaUser", methods =["GET", "POST"])
+@app.route("/criaUser", methods=["GET", "POST"])
 def cria():
     if request.method == "POST":
         user = Usuario(
@@ -43,7 +43,18 @@ def cria():
         #return redirect(url_for())
     return render_template('/criaUser.html')
 
-
+@app.route("/telaCadastro", methods=["GET", "POST"])
+def cadastra():
+    if request.method == "POST":
+        if request.form["aluno"] == "aluno":
+            return redirect("/telaCadastro")
+        elif request.form["parceiro"] == "parceiro":
+            return render_template("/telaCadastro", hd="")
+        else:
+            return render_template("/telaCadastro", hd="hidden=true")
+        
+    
+    return render_template("/telaCadastro.html",  hd="hidden=true")
 
 if __name__ == '__main__':
    app.run()

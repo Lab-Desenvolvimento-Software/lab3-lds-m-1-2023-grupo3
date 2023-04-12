@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    <form action = "{{ request.path }}" method="post">
+        <button type = "submit" name = "aluno" value = "aluno">aluno</button>
+        <button type = "submit" name = "pareceiro" value = "parceiro">parceiro</button>
+    </form>
+
+    <h1 {{ hd }}>Aluno</h1>
+    <h1 {{ hd }}>Parceiro</h1>
+
+
+</body>
+</html>
