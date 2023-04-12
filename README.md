@@ -1,4 +1,5 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10804226&assignment_repo_type=AssignmentRepo)
+
 # Histórias do Usuário
 
 - Usuário Logável:
@@ -41,6 +42,8 @@ Eu como aluno quero receber um e-mail notificando que recebi moedas.
 
 Eu como aluno quero receber um e-mail com um cupom da troca de morda por vantagens realizadas
 
+Eu como aluno quero trocar minhas moedas por vantagens para conseguir os benefícios das vantagens.
+
 - Professor:
 
 Eu como professor quero poder enviar moedas para os alunos que tem bom comportamento e participam das aulas como forma de reconhecimento.
@@ -48,5 +51,3 @@ Eu como professor quero poder enviar moedas para os alunos que tem bom comportam
 - Empresas parceiras:
 
 Eu como empresa parceira quero cadastrar uma vantagem para que os alunos cadastrados possam trocá-la por moedas.
-
-
