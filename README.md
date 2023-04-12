@@ -18,6 +18,8 @@ Eu como aluno quero poder receber moedas dos professores que entenderem que mere
 
 Eu como aluno quero consultar o extrato de moedas para saber quantas moedas recebi e gastei.
 
+Eu como aluno quero trocar minhas moedas por vantagens para conseguir os benefícios das vantagens.
+
 - Professor:
 
 Eu como professor quero poder enviar moedas para os alunos que merecem reconhecimento.
