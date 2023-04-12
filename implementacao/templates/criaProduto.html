@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cria user</title>
+    <title>Cria produto</title>
 </head>
-<!-- provavelmente vai virar um template de cadastro -->
 <body>
     <form action = "{{ request.path }}" method="post">
         <label for = "nome">Nome</label><br>
         <input type = "text" name = "nome" placeholder="Nome" /><br>
-        <label for = "endereco">endereco</label><br>
-        <input type = "text" name = "endereco" placeholder="endereco" /><br>
-        <label for = "email">email</label><br>
-        <input type = "text" name = "email" placeholder="email" /><br>
-        <label for = "senha">senha</label><br>
-        <input type = "text" name = "senha" placeholder="senha" /><br>
+        <label for = "descricao">Descrição</label><br>
+        <input type = "text" name = "descricao" placeholder="Descrição" /><br>
+        <label for = "preco">Preço</label><br>
+        <input type = "text" name = "preco" placeholder="preço" /><br>
+        <!--upload de arquivos de imagem, armazenamento?  -->
         <input type = "submit" value = "Submit" />
     </form>
 </body>
