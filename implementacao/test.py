@@ -97,53 +97,123 @@ def tes():
   
 #rotas/cotroller
 @app.route("/")
-def lol():
+def barra():
     return "asd"
 
-@app.route("/cham")
-def cham():
-    #tes()
+# @app.route("/cham")
+# def cham():
+#     #tes()
     
-    # cham = db.session.execute(db.select(Parceiro).order_by(Parceiro.nome)).scalars()
-    # prod = db.session.execute(db.select(Produto).order_by(Produto.nome)).scalars()
+#     # cham = db.session.execute(db.select(Parceiro).order_by(Parceiro.nome)).scalars()
+#     # prod = db.session.execute(db.select(Produto).order_by(Produto.nome)).scalars()
     
-    # return render_template("/cham.html", users=cham, produtos=prod)
-    parceiros = Parceiro.query.all()
-    produtos = Produto.query.all()
-    return render_template("/cham.html", users=parceiros, prods=produtos)
+#     # return render_template("/cham.html", users=cham, produtos=prod)
+#     parceiros = Parceiro.query.all()
+#     produtos = Produto.query.all()
+#     return render_template("/cham.html", users=parceiros, prods=produtos)
 
-@app.route("/mostraUser")
-def mostra():
-    users = db.session.execute(db.select(Usuario).order_by(Usuario.nome)).scalars()
-    return render_template("/mostraUser.html", users=users)
+# @app.route("/mostraUser")
+# def mostra():
+#     #users = db.session.execute(db.select(Usuario).order_by(Usuario.nome)).scalars()
+#     users = Parceiro.query.all()
+#     return render_template("/mostraUser.html", users=users)
 
-@app.route("/criaUser", methods=["GET", "POST"])
-def cria():
+@app.route("/listaParceiros", methods=["POST","GET"])
+def mostraParceiros():
+    #users = db.session.execute(db.select(Usuario).order_by(Usuario.nome)).scalars()
+    #if request.method == "REMOVE":
+    #    db.session.delete(request.form)
+    #    db.session.commit()
+    users = Parceiro.query.all()
+    return render_template("/listaParceiros.html", users=users)
+
+# @app.route("/removeUser/post", methods=["POST"])
+
+@app.route("/listaParceiros/<int:u>", methods=["REMOVE", "GET"])
+def deleteParceiro(u):
+    p = Parceiro.query.get(u)
+    db.session.delete(p)
+    db.session.commit()
+    return render_template("/listaParceiros.html")
+    
+@app.route("/criaParceiro", methods=["POST", "GET"])
+def criaParceiro():
     if request.method == "POST":
-        user = Usuario(
-            nome=request.form["nome"],
-            endereco=request.form["endereco"],
-            email=request.form["email"],
-            senha=request.form["senha"]
+        user = Parceiro(
+            nome = request.form["nome"],
+            endereco = request.form["endereco"],
+            email = request.form["email"],
+            senha = request.form["senha"],
+            cnpj = request.form["cnpj"]
         )
         db.session.add(user)
         db.session.commit()
-        #return redirect(url_for())
-    return render_template('/criaUser.html')
+    return render_template("/criaParceiro.html")
 
-@app.route("/telaCadastro", methods=["GET", "POST"])
-def cadastra():
+
+@app.route("/listaAlunos", methods=["POST","GET"])
+def mostraAlunos():
+    
+    # a = Aluno(nome="aa", endereco="ender", email="mail", senha="senha", cpf=123, rg=234, curso="asdasd", instDeEnsino="ensdfa", moedas=0)
+    # db.session.add(a)
+    # db.session.commit()
+    
+    users = Aluno.query.all()
+    return render_template("/listaAlunos.html", users=users)
+
+@app.route("/listaAlunos/<int:u>", methods=["REMOVE", "GET"])
+def deleteAluno(u):
+    p = Aluno.query.get(u)
+    db.session.delete(p)
+    db.session.commit()
+    return render_template("/listaAlunos.html")
+    
+@app.route("/criaAluno", methods=["POST", "GET"])
+def criaAluno():
     if request.method == "POST":
-        user = Usuario(
-            nome=request.form["nome"],
-            endereco=request.form["endereco"],
-            email=request.form["email"],
-            senha=request.form["senha"]
+        user = Aluno(
+            nome = request.form["nome"],
+            endereco = request.form["endereco"],
+            email = request.form["email"],
+            senha = request.form["senha"],
+            cpf = request.form["cpf"],
+            rg = request.form["rg"],
+            curso = request.form["curso"],
+            instDeEnsino = request.form["instDeEnsino"],
+            moedas = 0
         )
         db.session.add(user)
         db.session.commit()
+    return render_template("/criaAluno.html")
+
+
+# @app.route("/criaUser", methods=["GET", "POST"])
+# def cria():
+#     if request.method == "POST":
+#         user = Usuario(
+#             nome=request.form["nome"],
+#             endereco=request.form["endereco"],
+#             email=request.form["email"],
+#             senha=request.form["senha"]
+#         )
+#         db.session.add(user)
+#         db.session.commit()
+#         #return redirect(url_for())
+#     return render_template('/criaUser.html')
+
+# @app.route("/telaCadastro", methods=["GET", "POST"])
+# def cadastra():
+#     if request.method == "POST":
+#         user = Usuario(
+#             nome=request.form["nome"],
+#             endereco=request.form["endereco"],
+#             email=request.form["email"],
+#             senha=request.form["senha"]
+#         )
+#         db.session.add(user)
+#         db.session.commit()
         
-    return render_template("/telaCadastro.html")
+#     return render_template("/telaCadastro.html")
 
 if __name__ == '__main__':
    app.run()

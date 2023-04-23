@@ -3,14 +3,14 @@ left to right direction
 hide empty members
 
 object Parceiro {
-    * ID
+    * ID : Integer
     ____
     Produtos
     cnpj : Integer
 }
 
 object Produto {
-    * ID
+    * ID : Integer
     ___
     * Parceiro
     nome : String
@@ -20,7 +20,7 @@ object Produto {
 }
 
 object Usuario {
-    * ID
+    * ID : Integer
     ___
     nome : String
     endereco : String
@@ -33,7 +33,7 @@ object Usuario {
 }
 
 object Aluno {
-    * ID
+    * ID : Integer
     ___
     cpf : String
     rg : String
@@ -42,25 +42,25 @@ object Aluno {
 }
 
 object Professor {
-    * ID
+    * ID : Integer
     ___
     cpf : String
     moedas : Integer
 }
 
 object Administrador {
-    * ID
+    * ID : Integer
     ___
 }
 
 object Instituicao {
-    * ID
+    * ID : Integer
     ___
     pessoas
 }
 
 object Transacao {
-    * ID
+    * ID : Integer
     ___
     * origem
     * destino
