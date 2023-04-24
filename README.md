@@ -4,52 +4,52 @@
 
 - Usuário Logável:
 
-UC01 - Eu como Usuário Logável quero realizar login para acessar o sistema.
+US01 - Como Usuário Logável, eu gostaria de realizar login para acessar o sistema.
 
 - Administrador:
 
-UC02 - Eu como Administrador quero cadastrar os professores indicados em lista encaminhada por instituição parceira para que possam utilizar o sistema.
+US02.1 - Como Administrador, eu gostaria de cadastrar os professores indicados em lista encaminhada pela instituição parceira para que eles possam utilizar o sistema.
 
-UC03 - Eu como Administrador quero excluir um cadastro de professor, pois ele deixou de lecionar.
+US02.2 - Como Administrador, eu gostaria de excluir o cadastro de um professor que deixou de lecionar.
 
-UC04 - Eu como Administrador quero modificar o cadastro de um professor, pois ele passou a integrar outra instituição de ensino.
+US02.3 - Como Administrador, eu gostaria de modificar o cadastro de um professor que passou a integrar outra instituição de ensino.
 
-UC05 - Eu como Administrador quero distribuir moedas aos professores, tendo em vista que iniciou um novo semestre.
+US03.1 - Como Administrador, eu gostaria de cadastrar uma nova instituição de ensino, pois ela passou a integrar a lista de parceiros.
 
-UC06 - Eu como Administrador quero cadastrar uma nova instituição de ensino que passou a integrar a lista de parceiros.
+US03.2 - Como Administrador, eu gostaria de modificar o cadastro de uma instituição que teve o nome alterada.
 
-UC07 - Eu como Administrador quero modificar o cadastro de uma instituição, pois esta alterou o seu nome.
+US03.3 - Como Administrador, eu gostaria de excluir o cadastro de uma instituição que deixou de integrar a lista de parceiros.
 
-UC08 - Eu como Administrador quero excluir o cadastro de uma instituição que deixou de integrar a lista de parceiros.
+US04 - Como Administrador, eu gostaria de distribuir moedas aos professores, pois iniciou um novo semestre.
 
 - Usuário Cadastrável:
 
-UC09 - Eu como Usuário Cadastrável quero realizar o meu cadastro no sistema para receber moedas e trocar por vantagens.
+US05.1 - Como Usuário Cadastrável, eu gostaria de realizar o meu cadastro no sistema para receber moedas e trocar por vantagens.
 
-UC10 - Eu como Usuário Cadastrável quero realizar o meu cadastro no sistema para oferecer vantagens em troca de moedas.
+US05.2 - Como Usuário Cadastrável, eu gostaria de realizar o meu cadastro no sistema para oferecer vantagens em troca de moedas.
 
 - Usuário Financeiro:
 
-UC11 - Eu como Usuário Financeiro quero consultar o extrato de moedas para verificas quantas moedas recebi e quantas moedas utilizei.
+US06 - Como Usuário Financeiro, eu gostaria de consultar o extrato de moedas para verificas quantas moedas recebi e quantas moedas utilizei.
 
-UC12 - Eu como Usuário Financeiro quero consultar o meu saldo de moedas para verificar quantas moedas ainda posso utilizar.
+US07 - Como Usuário Financeiro, eu gostaria de consultar o meu saldo de moedas para verificar quantas moedas ainda posso utilizar.
 
 - Aluno:
 
-UC13 - Eu como aluno quero poder receber moedas dos professores que entenderem que mereço reconhecimento pelo meu comportamento e por participar das aulas.
+US08.1 - Como aluno, eu gostaria de poder receber moedas dos professores que entenderem que mereço reconhecimento pelo meu comportamento e por participar das aulas.
 
-UC14 - Eu como aluno quero receber um e-mail notificando que recebi moedas dos professores, assim não preciso ficar consultanto o meu saldo de moedas para verificar se recebi moedas.
+US08.2 - Como aluno, eu gostaria de receber um e-mail com o cupom da troca de moeda por vantagem que realizei.
 
-UC15 - Eu como aluno quero receber um e-mail com um cupom da troca de moeda por vantagens realizadas.
+US08.3 - Como aluno, eu gostaria de trocar minhas moedas por vantagens para conseguir os benefícios das vantagens.
 
-UC16 - Eu como aluno quero trocar minhas moedas por vantagens para conseguir os benefícios das vantagens.
+US08.4 - Como aluno, eu gostaria de receber um e-mail notificando quando eu receber moedas de professores, assim não preciso ficar consultanto o meu saldo de moedas para verificar se recebi moedas.
 
 - Professor:
 
-UC17 - Eu como professor quero poder enviar moedas para os alunos que tem bom comportamento e participam das aulas como forma de reconhecimento.
+US09 - Como professor, eu gostaria de poder enviar moedas para os alunos que tem bom comportamento e participam das aulas como forma de reconhecimento.
 
 - Empresas parceiras:
 
-UC18 - Eu como empresa parceira quero cadastrar uma vantagem para que os alunos cadastrados no sistema possam trocá-la por moedas.
+US10.1 - Como empresa parceira, eu gostaria de cadastrar uma vantagem para que os alunos cadastrados no sistema possam trocá-la por moedas.
 
-UC19 - Eu como empresa parceira quero receber um e-mail quando um aluno trocar moedas por uma vantagem que cadastrei para que eu possa conferir a troca.
+US10.2 - Como empresa parceira, eu gostaria de receber um e-mail quando um aluno trocar moedas por uma vantagem que cadastrei para que eu possa conferir a troca.

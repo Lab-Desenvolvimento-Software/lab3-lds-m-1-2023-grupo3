@@ -7,14 +7,25 @@
     <title>Cadastro</title>
 </head>
 <body>
-    <form action = "{{ request.path }}" method="post">
-        <button type = "submit" name = "aluno" value = "aluno">aluno</button>
-        <button type = "submit" name = "pareceiro" value = "parceiro">parceiro</button>
+    <form id="aluno">
+        <label>Cadastrar como aluno</label>
+        <button id="aluno" onclick="show('aluno')">aluno</button>
+        <button id="pareceiro" onclick="show('parceiro')">parceiro</button>    
     </form>
 
-    <h1 {{ hd }}>Aluno</h1>
-    <h1 {{ hd }}>Parceiro</h1>
+    <h1 id="aluno" display="none">Aluno</h1>
+    <h1 id="parceiro" display="none">Parceiro</h1>
 
-
+    <!--
+    <script>
+        function show(x) {
+            let elem = document.getElementById(x);
+            let btns = document.getElementById("botoes");
+            elem.style.display = "none";
+            btns.style.display = "none";
+        }
+    </script>
+    -->
+    
 </body>
 </html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mostra user</title>
+</head>
+<body>
+    <h1>parceiro</h1>
+    {% for parceiro in users %}
+    <h3>{{ parceiro.nome }}</h3>
+    <p>Endereço: {{ parceiro.endereco }}</p>
+    <p>E-mail: {{ parceiro.email }}</p>
+    <p>CNPJ: {{ parceiro.cnpj }}</p>
+    <h4>Produtos:</h4>
+    <ul>
+        {% for produto in parceiro.produtos %}
+            <li>{{ produto.nome }} - {{ produto.descricao }} - {{ produto.preco }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <h1>teste produtos</h1>
+    {% for p in prods %}
+    <p>{{ p.nome }}</p>
+    <p>{{ p.parceiro }}</p>
+    {% endfor %}
+
+    <!--
+    <table>
+        <tbody>
+            {% for u in users %}
+                <tr>
+                    <td>{{ u.nome }}</td>
+                    <td>{{ u.endereco }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.senha }}</td>
+                    <td>{{ u.cnpj }}</td>
+                    <td>
+                        {% for prod in u.produtos %}
+                            {{ prod.nome }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            <br><br>
+            {% for p in produtos %}
+                <tr>
+                    <td>{{ p.nome }}</td>
+                    <td>{{ p.preco }}</td>
+                    <td>{{ p.id_parceiro.nome}}
+                </tr>
+                <br>
+            {% endfor %}
+        </tbody>
+    </table> -->
+</body>
+</html>

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cria user</title>
 </head>
-<!-- provavelmente vai virar um template de cadastro -->
 <body>
     <form action = "{{ request.path }}" method="post">
         <label for = "nome">Nome</label><br>
@@ -17,6 +16,8 @@
         <input type = "text" name = "email" placeholder="email" /><br>
         <label for = "senha">senha</label><br>
         <input type = "text" name = "senha" placeholder="senha" /><br>
+        <label for = "cnpj">cnpj</label><br>
+        <input type = "text" name = "cnpj" placeholder="cnpj" /><br>
         <input type = "submit" value = "Submit" />
     </form>
 </body>
