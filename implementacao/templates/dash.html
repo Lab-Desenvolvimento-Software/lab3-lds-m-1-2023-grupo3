@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <h3>Alunos</h3>
+        {% for al in aluns %}
+            <h5>{{ al.nome }}</h5>
+            <p>{{ al.email }}</p>
+            <p>{{ al.senha }}</p>
+            <p>{{ al.cnpj }}</p>
+            <p>{{ al.rg }}</p>
+            <h5>transacoes:</h5>
+            {% for tr in al.transacoesProf %}
+                <p>{{ tr.valor }}</p>
+                <p>
+                {% for p in profs %}
+                    {% if p.id == tr.origem %}
+                        {{ p.nome }}
+                    {% endif %}
+                {% endfor %}
+                </p>
+            {% endfor %}
+        {% endfor %}
+    <h3>professores</h3>
+        {% for pr in profs %}
+            <h5>{{ pr.nome }}</h5>
+            <p>{{ pr.email }}</p>
+            <p>{{ pr.senha }}</p>
+            <p>{{ pr.cnpj }}</p>
+            <p>{{ pr.rg }}</p>
+        {% endfor %}
+
+    <!-- <h3>Transacoes</h3>
+        {% for t in tprof %}
+            <p>{{ t.origem }}</p>
+            <p>{{ t.destino }}</p>
+            <p>{{ t.valor }}</p>
+            <p>{{ t.data }}</p>
+        {% endfor %} -->
+
+</body>
+</html>
