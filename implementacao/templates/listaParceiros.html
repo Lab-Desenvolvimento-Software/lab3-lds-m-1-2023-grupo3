@@ -18,6 +18,10 @@
                         <td>{{ u.email }}</td>
                         <td>{{ u.senha }}</td>
                         <td><input type = "submit" value = "delete"/></td>
+                        <label>Produtos: </label>
+                        {% for p in produtos %}
+                            <td>{{ p.nome }}</td>
+                        {% endfor %}
                     </tr>
                 </form>
             {% endfor %}
