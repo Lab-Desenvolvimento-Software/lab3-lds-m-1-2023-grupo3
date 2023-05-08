@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ aluno.nome }}</title>
+</head>
+<body>
+    <h3>Informaçẽos pessoais: </h3>
+    <p>nome: {{ aluno.nome }}</p>
+    <p>endereco: {{ aluno.endereco }}</p>
+    <p>email: {{ aluno.email }}</p>
+    <p>cpf: {{ aluno.cpf}} </p>
+    <p>rg: {{ aluno.rg }}</p>
+    <p>curso: {{ aluno.curso }}</p>
+    <p>moedas: {{ aluno.moedas }}</p>
+    <p>instituição: {{ inst.nome }}</p>
+
+    <h3>Histórico transacoes recebidas: </h3>
+        {% for t in tp %}
+            <h5>{{ t.id }}</h5> 
+            <p>
+                {% for prf in prof %}
+                    {% if prf.id == t.origem %} 
+                        {{ prf.nome }} 
+                    {% endif %}
+                {% endfor %}
+            </p>
+            <p>valor: {{ t.valor }}</p>
+            <p>data: {{ t.data }}</p>
+            <p>mensagem: {{ t.mensagem }}</p>
+
+        {% endfor %}
+
+    <h3>Histórico transações feitas: </h3>
+        {% for a in ta %}
+            <h5>{{ a.id }}</h5>
+            <p>parceiro: {{ a.destino }}</p>
+            <p>valor: {{ a.valor }}</p>
+            <p>data: {{ a.data }}</p>
+            <p>mensagem: {{ a.mensagem }}</p>
+        {% endfor %}
+        
+    <h3>Trocar vantagens: </h3>
+        {% for prod in prod %}
+            <form action = "/aluno/{{ aluno.id }}/{{ prod.id }}" method="POST">
+                <h5>{{ prod.nome }}</h5>
+                <p>{{ prod.descricao }}</p>
+                <p>{{ prod.preco }}</p>
+                <p>
+                    {% for prf in prof %}
+                        {% if prf.id == prod.id_parceiro %} 
+                            {{ prf.nome }} 
+                        {% endif %}
+                    {% endfor %}
+                </p>
+                <p><input type="submit" value="post"/></p>
+            </form>
+        {% endfor %}
+
+</body>
+</html>

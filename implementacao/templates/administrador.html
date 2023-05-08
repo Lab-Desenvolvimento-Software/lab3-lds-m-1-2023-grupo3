@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ adm.nome }}</title>
+</head>
+<body>
+    <h3>Informaçẽos pessoais: </h3>
+    <p>nome: {{ adm.nome }}</p>
+    <p>endereco: {{ adm.endereco }}</p>
+    <p>email: {{ adm.email }}</p>
+    <p>cnpj: {{ adm.cnpj}}</p>
+
+    <h3>Alunos: </h3>
+    {% for al in aluno %}
+        <p>nome: {{ al.nome }}</p>
+        <p>endereco: {{ al.endereco }}</p>
+        <p>email: {{ al.email }}</p>
+        <p>cpf: {{ al.cpf}} </p>
+        <p>rg: {{ al.rg }}</p>
+        <p>curso: {{ al.curso }}</p>
+        <p>moedas: {{ al.moedas }}</p>
+    {% endfor %}
+
+    <h3>Professores: </h3>
+    {% for pr in prof %}
+        <p>nome: {{ pr.nome }}</p>
+        <p>endereco: {{ pr.endereco }}</p>
+        <p>email: {{ pr.email }}</p>
+        <p>cpf: {{ pr.cpf}} </p>
+        <p>rg: {{ pr.rg }}</p>
+        <p>departamento: {{ pr.departamento }}</p>
+        <p>moedas: {{ pr.moedas }}</p>
+    {% endfor %}
+
+    <h3>Instituições: </h3>
+    {% for ins in inst %}
+        <p>id: {{ ins.id }}</p>
+        <p>nome: {{ ins.nome }}</p>
+    {% endfor %}
+
+    <h3>Parceiros: </h3>
+    {% for par in parca %}
+        <p>nome: {{ par.nome }}</p>
+        <p>endereco: {{ par.endereco }}</p>
+        <p>email: {{ par.email }}</p>
+        <p>cnpj: {{ par.cnpj}} </p>
+    {% endfor %}
+
+    <h3>Administradores: </h3>
+    {% for ad in adms %}
+        <p>nome: {{ ad.nome }}</p>
+        <p>endereco: {{ ad.endereco }}</p>
+        <p>email: {{ ad.email }}</p>
+    {% endfor %}
+
+</body>
+</html>
