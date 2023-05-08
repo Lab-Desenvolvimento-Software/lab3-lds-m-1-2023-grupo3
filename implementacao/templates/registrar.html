@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar</title>
+    <h3>Como Aluno: </h3>
+    <form action="/registrando" method="POST">
+        <p>nome: <input type="text" name="nome"></p>
+        <p>endereco: <input type="text" name="endereco"></p>
+        <p>email: <input type="text" name="email"></p>
+        <p>senha: <input type="password" name="senha"></p>
+        <p>cpf: <input type="number" name="cpf"></p>
+        <p>rg: <input type="number" name="rg"></p>
+        <p>curso: <input type="text" name="curso"></p>
+        <P>instituicão: <select name="instituicao">
+            {% for i in inst %}
+                <option value="{{ i.id }}">{{ i.nome }}</option>
+            {% endfor %}
+        </select></P>
+        <input type="hidden" type="text" name="tipo" value="aluno">
+        <p><input type="submit" value="post"></p>
+    </form>
+
+    <h3>Como Parceiro: </h3>
+    <form action="/registrando" method="POST">
+        <p>nome: <input type="text" name="nome"></p>
+        <p>endereco: <input type="text" name="endereco"><</p>
+        <p>email: <input type="text" name="email"></p>
+        <p>senha: <input type="password" name="senha"></p>
+        <p>cnpj: <input type="text" name="cnpj"></p>
+        <input type="hidden" type="text" value="parca">
+        <p><input type="submit" name="tipo" value="post"></p>
+    </form>
+</head>
+<body>
+    
+</body>
+</html>
