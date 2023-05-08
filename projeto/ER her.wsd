@@ -1,0 +1,88 @@
+@startuml
+left to right direction
+hide empty members
+
+object Parceiro {
+    * ID : Integer
+    ____
+    Produtos
+    cnpj : Integer
+}
+
+object Produto {
+    * ID : Integer
+    ___
+    * Parceiro
+    nome : String
+    preco : Integer
+    descricao : String
+
+}
+
+object Usuario {
+    * ID : Integer
+    ___
+    nome : String
+    endereco : String
+    email : String
+    senha : String
+    transacoes
+    instituicao
+    tipo
+    
+}
+
+object Aluno {
+    * ID : Integer
+    ___
+    cpf : String
+    rg : String
+    moedas : Integer
+    curso : String
+}
+
+object Professor {
+    * ID : Integer
+    ___
+    cpf : String
+    moedas : Integer
+}
+
+object Administrador {
+    * ID : Integer
+    ___
+}
+
+object Instituicao {
+    * ID : Integer
+    ___
+    pessoas
+}
+
+object Transacao {
+    * ID : Integer
+    ___
+    * origem
+    * destino
+    valor : Integer
+    data : String
+    mensagem : String
+}
+
+
+Parceiro::Produtos ||--|{ Produto::Parceiro
+
+Usuario::transacoes }|--|| Transacao::origem
+Usuario::transacoes }|--|| Transacao::destino
+
+Usuario::instituicao ||--|{ Instituicao::pessoas
+
+'heranças
+Usuario::tipo ||--|| Parceiro::ID
+Usuario::tipo ||--|| Aluno::ID
+Usuario::tipo ||--|| Professor::ID
+Usuario::tipo ||--|| Administrador::ID
+
+
+
+@enduml
