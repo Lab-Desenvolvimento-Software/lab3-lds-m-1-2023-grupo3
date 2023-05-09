@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy as SQLalq
-from model import Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, TransacaoProfessor, TransacaoAluno, db
+# from flask_sqlalchemy import SQLAlchemy as SQLalq
+# from model import Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, TransacaoProfessor, TransacaoAluno, db
+from model import Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
 from datetime import datetime
 
 # db = SQLalq()
@@ -287,6 +288,5 @@ def registrando():
 
 if __name__ == '__main__':
    app.run()
-   #db.create_all()
-    
+   db.create_all()
     
