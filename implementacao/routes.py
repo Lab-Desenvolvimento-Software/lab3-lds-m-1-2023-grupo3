@@ -1,158 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy as SQLalq
+from model import Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, TransacaoProfessor, TransacaoAluno, db
 from datetime import datetime
 
-#model
-db = SQLalq()
+# db = SQLalq()
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///moeda.db"
 db.init_app(app)
 
-class Aluno(db.Model):
-    id = db.Column("id_usuario", db.Integer, primary_key=True)
-    nome = db.Column(db.String(100))
-    endereco = db.Column(db.String(150))
-    email = db.Column(db.String(50))
-    senha = db.Column(db.String(40))
-    cpf = db.Column(db.Integer) 
-    rg = db.Column(db.Integer)
-    curso = db.Column(db.String(40))
-    moedas = db.Column(db.Integer)
-    id_instituicao = db.Column(db.Integer, db.ForeignKey('instituicao.id_instituicao'))
-    transacoesAluno = db.relationship("TransacaoAluno", backref="aluno")
-    transacoesProf = db.relationship("TransacaoProfessor", backref="aluno")
-
-class Professor(db.Model):
-    id = db.Column("id_usuario", db.Integer, primary_key=True)
-    nome = db.Column(db.String(100))
-    endereco = db.Column(db.String(150))
-    email = db.Column(db.String(50))
-    senha = db.Column(db.String(40))
-    cpf = db.Column(db.Integer)  
-    departamento = db.Column(db.String(40))
-    moedas = db.Column(db.Integer)
-    id_instituicao = db.Column(db.Integer, db.ForeignKey('instituicao.id_instituicao'))
-    transacoesProf = db.relationship("TransacaoProfessor", backref="professor")
-    transacoesAluno = db.relationship("TransacaoAluno", backref="professor")
-
-class Parceiro(db.Model):
-    id = db.Column("id_usuario", db.Integer, primary_key=True)
-    nome = db.Column(db.String(100))
-    endereco = db.Column(db.String(150))
-    email = db.Column(db.String(50))
-    senha = db.Column(db.String(40))
-    cnpj = db.Column(db.Integer)
-    produtos = db.relationship("Produto", backref="parceiro", lazy=True)#um parceiro tem vários produtos
-
-class Administrador(db.Model):
-    id = db.Column("id_usuario", db.Integer, primary_key=True)
-    nome = db.Column(db.String(100))
-    endereco = db.Column(db.String(150))
-    email = db.Column(db.String(50))
-    senha = db.Column(db.String(40))
-
-
-class Instituicao(db.Model):
-    id = db.Column("id_instituicao", db.Integer, primary_key=True)
-    nome = db.Column(db.String(40))
-    professores = db.relationship("Professor", backref="instituicao")
-    alunos = db.relationship("Aluno", backref="instituicao")
-
-class Produto(db.Model):
-    id = db.Column("id_produto", db.Integer, primary_key=True)
-    nome = db.Column(db.String(100))
-    descricao = db.Column(db.String(320))
-    preco = db.Column(db.Integer)
-    id_parceiro = db.Column(db.Integer, db.ForeignKey("parceiro.id_usuario")) #relação
-    
-    
-class TransacaoProfessor(db.Model):
-    id = db.Column("id_transacao_prof", db.Integer, primary_key=True)
-    origem = db.Column(db.Integer, db.ForeignKey("professor.id_usuario")) #sempre professor
-    destino = db.Column(db.Integer, db.ForeignKey("aluno.id_usuario")) #sempre aluno
-    valor = db.Column(db.Integer)
-    data = db.Column(db.String(20))
-    mensagem = db.Column(db.String(100))
-
-class TransacaoAluno(db.Model):
-    id = db.Column("id_transacao_aluno", db.Integer, primary_key=True)
-    origem = db.Column(db.Integer, db.ForeignKey("aluno.id_usuario"))#sempre aluno
-    destino = db.Column(db.Integer, db.ForeignKey("professor.id_usuario"))#sempre parceiro 
-    valor = db.Column(db.Integer)
-    data = db.Column(db.String(20))
-    mensagem = db.Column(db.String(100))
-
 #usado pra criar o bd
 with app.app_context():
     db.create_all()
-
-# def tes():
-#     pa = Parceiro(nome="parceiro", endereco="rua 123", email="email", senha="senha123", cnpj=123654)
-#     db.session.add(pa)
-
-#     db.session.commit()
-
-#     pr = Produto(nome="coisa", descricao="uma coisa", preco=50, id_parceiro=pa.id)
-#     db.session.add(pr)
-
-#     pr = Produto(nome="pão", descricao="um pão", preco=100, id_parceiro=pa.id)
-#     db.session.add(pr)
-    
-#     db.session.commit()
-
-
-# def relacoes():
-#     inst = Instituicao(nome="PUCMG")
-#     db.session.add(inst)
-#     db.session.commit()
-
-#     #instituicao + profs e alunos
-#     profA = Professor(nome="prof1", endereco="rua123", email="mail", senha="123", cpf=123, id_instituicao=inst.id)
-#     profB = Professor(nome="prof2", endereco="rua123", email="mail", senha="123", cpf=123, id_instituicao=inst.id)
-#     alunA = Aluno(nome="aluno1", endereco="rua123", email="mail", senha="123", cpf=123, rg=123, curso="curso", id_instituicao=inst.id)
-#     alunB = Aluno(nome="aluno2", endereco="rua123", email="mail", senha="123", cpf=123, rg=123, curso="curso", id_instituicao=inst.id)
-#     parca = Parceiro(nome="parceiro", endereco="rua 123", email="email", senha="senha123", cnpj=123654)
-#     db.session.add_all([profA, profB, alunA, alunB, parca])
-#     db.session.commit()
-
-#     #enviar moedas alunos
-# def enviaMoedaAluno():
-#     profA = Professor.query.filter_by(nome="prof1").first()
-#     alunA = Aluno.query.filter_by(nome="aluno1").first()
-    
-#     transacao = TransacaoProfessor(origem=profA.id, destino=alunA.id, valor=40, data="12/05/2000", mensagem="mensg")
-#     db.session.add(transacao)
-#     db.session.commit()
-
-#     #enviar moedas parceiros
-# def enviaMoedaparca():
-    
-#     db.session.commit()
-
-# def ktAdm():
-#     adm = Administrador(nome="ademir", endereco="123", email="mail", senha="123")
-#     db.session.add(adm)
-#     db.session.commit()
-
-# #rotas/cotroller
-# @app.route("/")
-# def barra():
-#     return "asd"
-
-# @app.route("/tes")
-# def testao():
-#     #tes()
-#     #return "teste!!!"
-    
-#     #relacoes()
-#     #enviaMoedaAluno()
-#     #tes()
-#     profs = Professor.query.all()
-#     aluns = Aluno.query.all()
-#     inst = Instituicao.query.all()
-#     tprof = TransacaoProfessor.query.all()
-#     return render_template("/dash.html", profs=profs, aluns=aluns, inst=inst, tprof=tprof)
-
 
 #PROFESSOR
 @app.route("/professor/<int:u>", methods=["POST", "GET"])
