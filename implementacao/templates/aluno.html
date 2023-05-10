@@ -8,6 +8,7 @@
 </head>
 <body>
     <h3>Informaçẽos pessoais: </h3>
+    <p>id: {{ aluno.id }}</p>
     <p>nome: {{ aluno.nome }}</p>
     <p>endereco: {{ aluno.endereco }}</p>
     <p>email: {{ aluno.email }}</p>
@@ -34,7 +35,7 @@
         {% endfor %}
 
     <h3>Histórico transações feitas: </h3>
-        {% for a in ta %}
+        {% for a in tf %}
             <h5>{{ a.id }}</h5>
             <p>parceiro: {{ a.destino }}</p>
             <p>valor: {{ a.valor }}</p>

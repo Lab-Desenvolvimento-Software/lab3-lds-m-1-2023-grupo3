@@ -88,7 +88,7 @@
 
     <h3>Administradores: </h3>
     {% for ad in adms %}
-        <form action="/administrador/{{ adm.id }}/adm/{{ adms.id }}" method="POST">
+        <form action="/administrador/{{ adm.id }}/adim/{{ ad.id }}" method="POST">
             <p>id: {{ ad.id }}</p>
             <p>nome: {{ ad.nome }}<input type="text" name="nome"></p>
             <p>endereco: {{ ad.endereco }}<input type="text" name="endereco"></p>

@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-# from flask_sqlalchemy import SQLAlchemy as SQLalq
-# from model import Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, TransacaoProfessor, TransacaoAluno, db
-from model import Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
+from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
 from datetime import datetime
 
 # db = SQLalq()
@@ -9,27 +7,43 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///moeda.db"
 db.init_app(app)
 
+def cria():
+    p = Parceiro(nome="parca", endereco="rua123", email="mail", senha="123", tipo="parceiro", cnpj=123)
+    c = Instituicao(nome="PUCMG")
+    a = Administrador(nome="ademir", endereco="rua123", email="mail", senha="123", tipo="administrador")
+    db.session.add(p)
+    db.session.add(c)
+    db.session.add(a)
+    db.session.commit()
+
+    prof = Professor(nome="prof", endereco="rua123", email="mail", senha="123", tipo="professor", cpf=123, departamento="ICEI", moedas=0, id_instituicao=c.id)
+    alun = Aluno(nome="alun", endereco="rua123", email="mail", senha="123", tipo="aluno", cpf=123, rg=123123, curso="curso", moedas=0, id_instituicao=c.id)
+    db.session.add(prof)
+    db.session.add(alun)
+    db.session.commit()
+
 #usado pra criar o bd
 with app.app_context():
     db.create_all()
+    # cria()
 
 #PROFESSOR
 @app.route("/professor/<int:u>", methods=["POST", "GET"])
 def professor(u):
     prof = db.session.get(Professor, u) 
     inst = db.session.get(Instituicao, prof.id_instituicao)
-    tp = TransacaoProfessor.query.filter_by(origem=u).all()
+    tp = Transacao.query.filter_by(origem=u).all()
     aluno = Aluno.query.all()
     return render_template("/professor.html", aluno=aluno, inst=inst, tp=tp, prof=prof)
 
 @app.route("/professor/<int:u>/<int:j>", methods=["POST", "GET"])
 def mandarMoedas(u, j):
     aluno = db.session.get(Aluno, j)
-    tr = TransacaoProfessor(origem=u, 
-                            destino=aluno.id, 
-                            valor=request.form["valor"], 
-                            data=datetime.now(), 
-                            mensagem=request.form["mensagem"])
+    tr = Transacao(origem=u, 
+                   destino=aluno.id, 
+                   valor=request.form["valor"], 
+                   data=datetime.now(), 
+                   mensagem=request.form["mensagem"])
     db.session.add(tr)
     db.session.commit()
     return professor(u)
@@ -39,21 +53,21 @@ def mandarMoedas(u, j):
 def aluno(u):
     aluno = db.session.get(Aluno, u) #= Aluno.query.get(...)
     inst = db.session.get(Instituicao, aluno.id_instituicao)
-    tp = TransacaoProfessor.query.filter_by(destino=u).all()
-    ta = TransacaoAluno.query.filter_by(origem=u).all()
+    tp = Transacao.query.filter_by(destino=u).all()
+    tf = Transacao.query.filter_by(origem=u)
     prof = Professor.query.all()
     prod = Produto.query.all()
-    return render_template("/aluno.html", aluno=aluno, inst=inst, tp=tp, ta=ta, prod=prod, prof=prof)
+    return render_template("/aluno.html", aluno=aluno, inst=inst, tp=tp, tf=tf, prod=prod, prof=prof)
 
 @app.route("/aluno/<int:u>/<int:j>", methods=["POST", "GET"])
 def compraProd(u, j):
     prod = db.session.get(Produto, j)
-    tr = TransacaoAluno(origem=u, 
-                        destino=prod.id_parceiro, 
-                        valor=prod.preco, 
-                        data="0/0/0", 
-                        mensagem="msg")
-    db.session.add(tr)
+    tn = Transacao(origem=u, 
+                   destino=prod.id_parceiro, 
+                   valor=prod.preco, 
+                   data=datetime.now(),
+                   mensagem="")
+    db.session.add(tn)
     db.session.commit()
     return aluno(u)
 
@@ -62,7 +76,7 @@ def compraProd(u, j):
 def parceiro(u):
     parca = db.session.get(Parceiro, u)
     prod = Produto.query.filter_by(id_parceiro=u).all()
-    ta = TransacaoAluno.query.filter_by(destino=u).all()
+    ta = Transacao.query.filter_by(destino=u).all()
     return render_template("/parceiro.html", parca=parca, prod=prod, ta=ta)
 
 @app.route("/parceiro/<int:u>/add", methods=["POST", "GET"])
@@ -209,6 +223,7 @@ def admRm(u, tipo, id):
 
     return administrador(u)
 
+#LOGIN/REGISTRAR
 @app.route("/login", methods=["GET", "POST"])
 def login():
     return render_template("login.html")
@@ -254,6 +269,7 @@ def registrar():
 def registrando():
     tipo = request.form["tipo"]
     nome = request.form["nome"]
+    endereco = request.form["endereco"]
     email = request.form["email"]
     senha = request.form["senha"]
     match tipo:
@@ -262,23 +278,22 @@ def registrando():
             rg = request.form["rg"]
             curso = request.form["curso"]
             instituicao = request.form["instituicao"]
-            # cpfs = Aluno.query(cpf).all()
-            # rgs = Aluno.query(rg).all()
-            cpfs = [x.cpf for x in db.session.query(Aluno)]
-            rgs = [x.rg for x in db.session.query(Aluno)]
-            if not (rg in rgs or cpf in cpfs):
-                n = Aluno(nome=nome, mail=email, senha=senha, 
-                          cpf=cpf, curso=curso, instituicao=instituicao, 
-                          rg=rg, moedas=0)
+            cpf_existe = Aluno.query.filter_by(cpf=cpf).first()
+            rg_existe = Aluno.query.filter_by(rg=rg).first()
+            if(not cpf_existe and not rg_existe):
+                n = Aluno(nome=nome, endereco=endereco, email=email,
+                          senha=senha, tipo=tipo, cpf=cpf, rg=rg,
+                          curso=curso, id_instituicao=instituicao, moedas=0)
                 db.session.add(n)
                 db.session.commit()
                 return redirect(url_for("aluno", u=n.id))
 
-        case 'parca':            
+        case 'parceiro':            
             cnpj = request.form["cnpj"]
-            cnpjs = Parceiro.query(cnpj).all()
-            if(cnpj not in cnpjs):
-                n = Parceiro(nome=nome, mail=email, senha=senha, cnpj=cnpj)
+            cnpj_existe = Parceiro.query.filter_by(cnpj=cnpj).first()
+            if(not cnpj_existe):
+                n = Parceiro(nome=nome, endereco=endereco, email=email,
+                            senha=senha, tipo=tipo, cnpj=cnpj)
                 db.session.add(n)
                 db.session.commit()
                 return redirect(url_for("parceiro", u=n.id))
