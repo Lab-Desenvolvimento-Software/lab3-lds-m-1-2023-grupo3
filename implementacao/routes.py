@@ -25,7 +25,7 @@ def cria():
 #usado pra criar o bd
 with app.app_context():
     db.create_all()
-    cria()
+    # cria()
 
 #PROFESSOR
 @app.route("/professor/<int:u>", methods=["POST", "GET"])
