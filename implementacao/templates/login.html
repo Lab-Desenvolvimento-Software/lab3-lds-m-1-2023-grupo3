@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <form action="/verifica" method="POST">
+        <p>id: <input type="text" name="id"></p>
+        <p>senha: <input type="text" name="senha"></p>
+        <p>tipo: <select name="tipo">
+            <option value="aluno">aluno</option>
+            <option value="prof">professor</option>
+            <option value="parc">parceiro</option>
+            <option value="admin">administrador</option>
+        </select></p>
+        <p><input type="submit" value="post"/></p>
+    </form>
+</body>
+</html>

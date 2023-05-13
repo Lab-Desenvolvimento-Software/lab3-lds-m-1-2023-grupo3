@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ parca.nome }}</title>
+</head>
+<body>
+    <h3>Informaçẽos pessoais: </h3>
+    <p>nome: {{ parca.nome }}</p>
+    <p>endereco: {{ parca.endereco }}</p>
+    <p>email: {{ parca.email }}</p>
+    <p>cnpj: {{ parca.cnpj}} </p>
+
+    <h3>Produtos disponíveis: </h3>
+    {% for p in prod %}
+        <form action="/parceiro/{{ parca.id }}/{{ p.id }}" method="POST">
+            <p>nome: {{ p.nome }}<input type="text" name="nome"/></p>
+            <p>descrição: {{ p.descricao }}<input type="text" name="descricao"/></p>
+            <p>preco: {{ p.preco }} <input type="number" name="preco"/></p>
+            <p><input type="submit" value="post"/></p>
+        </form>
+        <form action="/parceiro/{{ parca.id }}/delete/{{ p.id }}" method="REMOVE">
+            <input type="submit" value="delete">
+        </form>
+    {% endfor %}
+
+    <h3>Adicionar produto: </h3>
+    <form action="/parceiro/{{ parca.id }}/add" method="POST">
+        <p><input type="text" name="nome" placeholder="nome" /></p>
+        <p><input type="text" name="descricao" placeholder="descricao" /></p>
+        <p><input type="number" name="preco" placeholder="preco" /></p>
+        <p><input type="submit" value="post"/></p>
+    </form>
+
+    <h3>Vantagens trocadas: </h3>
+    {% for t in ta %}
+        <!-- informação sobre o produto? -->
+        <p>valor: {{ t.valor }}</p>
+        <p>data: {{ t.data }}</p>
+        <p>mensagem: {{ t.mensagem }}</p>
+    {% endfor %}
+</body>
+</html>

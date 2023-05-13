@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ adm.nome }}</title>
+</head>
+<body>
+    <h3>Informaçẽos pessoais: </h3>
+    <p>id: {{ adm.id }}</p>
+    <p>nome: {{ adm.nome }}</p>
+    <p>endereco: {{ adm.endereco }}</p>
+    <p>email: {{ adm.email }}</p>
+    <p>cnpj: {{ adm.cnpj}}</p>
+
+    <h3>Alunos: </h3>
+    {% for al in aluno %}
+        <form action="/administrador/{{ adm.id }}/aluno/{{ al.id }}" method="POST">
+            <p>id: {{ al.id }}</p>
+            <p>nome: {{ al.nome }}<input type="text" name="nome"></p>
+            <p>endereco: {{ al.endereco }}<input type="text" name="endereco"></p>
+            <p>email: {{ al.email }}<input type="text" name="email"></p>
+            <p>senha: {{ al.senha }}<input type="text" name="senha"></p>
+            <p>cpf: {{ al.cpf}}<input type="number" name="cpf"></p>
+            <p>rg: {{ al.rg }}<input type="number" name="rg"></p>
+            <p>curso: {{ al.curso }}<input type="text" name="curso"></p>
+            <P>instituicão: {{ al.instituicao }}<select name="instituicao">
+                {% for i in inst %}
+                    <option value="{{ i.id }}">{{ i.nome }}</option>
+                {% endfor %}
+            </select></P>
+            <p>moedas: {{ al.moedas }}<input type="number" name="moedas"></p>
+            <p><input type="submit" value="post"></p>
+        </form>
+        <form action="/administrador/{{ adm.id }}/rm/aluno/{{ al.id }}" method="REMOVE">
+            <input type="submit" value="delete">
+        </form>
+    {% endfor %}
+
+    <h3>Professores: </h3>
+    {% for pr in prof %}
+        <form action="/administrador/{{ adm.id }}/prof/{{ pr.id }}" method="POST">
+            <p>id: {{ pr.id }}</p>
+            <p>nome: {{ pr.nome }}<input type="text" name="nome"></p>
+            <p>endereco: {{ pr.endereco }}<input type="text" name="endereco"></p>
+            <p>email: {{ pr.email }}<input type="text" name="email"></p>
+            <p>senha: {{ pr.senha }}<input type="text" name="senha"></p>
+            <p>cpf: {{ pr.cpf}}<input type="number" name="cpf"></p>
+            <p>departamento: {{ pr.departamento }}<input type="text" name="departamento"></p>
+            <P>instituicão: {{ pr.instituicao }}<select name="instituicao">
+                {% for i in inst %}
+                    <option value="{{ i.id }}">{{ i.nome }}</option>
+                {% endfor %}
+            </select></P>
+            <p>moedas: {{ pr.moedas }}<input type="number" name="moedas"></p>
+            <p><input type="submit" value="post"></p>
+        </form>
+        <form action="/administrador/{{ adm.id }}/rm/prof/{{ pr.id }}" method="REMOVE">
+            <input type="submit" value="delete">
+        </form>
+    {% endfor %}
+
+    <h3>Instituições: </h3>
+    {% for ins in inst %}
+        <form action="/administrador/{{ adm.id }}/inst/{{ ins.id }}" method="POST">
+            <p>id: {{ ins.id }}</p>
+            <p>nome: {{ ins.nome }}<input type="text" name="nome"></p>
+            <p><input type="submit" value="post"></p>
+        </form>
+    {% endfor %}
+
+    <h3>Parceiros: </h3>
+    {% for par in parca %}
+        <form action="/administrador/{{ adm.id }}/parc/{{ par.id }}" method="POST">
+            <p>id: {{ par.id }}</p>
+            <p>nome: {{ par.nome }}<input type="text" name="nome"></p>
+            <p>endereco: {{ par.endereco }}<input type="text" name="endereco"><</p>
+            <p>email: {{ par.email }}<input type="text" name="email"></p>
+            <p>senha: {{ par.senha }}<input type="text" name="senha"></p>
+            <p>cnpj: {{ par.cnpj}}<input type="text" name="cnpj"></p>
+            <p><input type="submit" value="post"></p>
+        </form>
+        <form action="/administrador/{{ adm.id }}/rm/parc/{{ par.id }}" method="REMOVE">
+            <input type="submit" value="delete">
+        </form>
+    {% endfor %}
+
+    <h3>Administradores: </h3>
+    {% for ad in adms %}
+        <form action="/administrador/{{ adm.id }}/adim/{{ ad.id }}" method="POST">
+            <p>id: {{ ad.id }}</p>
+            <p>nome: {{ ad.nome }}<input type="text" name="nome"></p>
+            <p>endereco: {{ ad.endereco }}<input type="text" name="endereco"></p>
+            <p>email: {{ ad.email }}<input type="text" name="email"></p>
+            <p>senha: {{ ad.senha }}<input type="text" name="senha"></p>
+            <p><input type="submit" value="post"></p>
+        </form>
+        <form action="/administrador/{{ adm.id }}/rm/adim/{{ ad.id }}" method="REMOVE">
+            <input type="submit" value="delete">
+        </form>
+    {% endfor %}
+
+    <h3>Adicionar professor: </h3>
+    <form action="/administrador/{{ adm.id }}/prof" method="POST">
+        <p>nome: <input type="text" name="nome"></p>
+        <p>endereço: <input type="text" name="endereco"></p>
+        <p>email: <input type="text" name="email"></p>
+        <p>senha: <input type="text" name="senha"></p>
+        <p>cpf: <input type="number" name="cpf"></p>
+        <p>departamento: <input type="text" name="departamento"></p> 
+        <P><select name="instituicao">
+            {% for i in inst %}
+                <option value="{{ i.id }}">{{ i.nome }}</option>
+            {% endfor %}
+        </select></P>
+        <p><input type="submit" value="post"></p>
+    </form>
+
+    <h3>Adicionar instituição: </h3>
+    <form action="/administrador/{{ adm.id }}/inst" method="POST">
+        <p><input type="text" name="nome"></p>
+        <p><input type="submit" value="post"></p>
+    </form>
+
+    <h3>Adicionar administrador: </h3>
+    <form action="/administrador/{{ adm.id }}/adim" method="POST">
+        <p>nome: <input type="text" name="nome"></p>
+        <p>endereco: <input type="text" name="endereco"></p>
+        <p>email: <input type="text" name="email"></p>
+        <p>senha: <input type="text" name="senha"></p>
+        <p><input type="submit" value="post"></p>
+    </form>
+
+</body>
+</html>
