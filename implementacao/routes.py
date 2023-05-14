@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
 from datetime import datetime
 
-# db = SQLalq()
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///moeda.db"
 db.init_app(app)
@@ -20,6 +19,13 @@ def cria():
     alun = Aluno(nome="alun", endereco="rua123", email="mail", senha="123", tipo="aluno", cpf=123, rg=123123, curso="curso", moedas=0, id_instituicao=c.id)
     db.session.add(prof)
     db.session.add(alun)
+    db.session.commit()
+
+    # tr0 = Transaca(origem=instituicao)?
+    prod = Produto(nome="replho", descricao="1(uma) undade de repolho", preco=50, id_parceiro=p.id)
+    db.session.add(prod)
+    # db.session.add(tr1)
+    # db.session.add(tr2)
     db.session.commit()
 
 #usado pra criar o bd
@@ -45,6 +51,8 @@ def mandarMoedas(u, j):
                    data=datetime.now(), 
                    mensagem=request.form["mensagem"])
     db.session.add(tr)
+    prof = db.session.get(Professor, u)
+    prof.moedas = prof.moedas-int(request.form["valor"])
     db.session.commit()
     return professor(u)
 
@@ -68,6 +76,8 @@ def compraProd(u, j):
                    data=datetime.now(),
                    mensagem="")
     db.session.add(tn)
+    alun = db.session.get(Aluno, u)
+    alun.moedas = alun.moedas-prod.preco
     db.session.commit()
     return aluno(u)
 
@@ -237,6 +247,10 @@ def verifica():
         case 'aluno':
             a = Aluno.query.all()
             sm = db.session.get(Aluno, id)
+            # if(sm in a and senha == sm.senha):
+            print("id: ", id, " sm: ", sm.nome)
+            print(sm in a)
+            print("senha: ", senha, " sm.senha: ", sm.senha)
             if(sm in a and senha == sm.senha):
                 return redirect(url_for("aluno", u=sm.id))
             
@@ -303,5 +317,4 @@ def registrando():
 
 if __name__ == '__main__':
    app.run()
-   db.create_all()
     
