@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
 from datetime import datetime
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///moeda.db"
@@ -28,10 +31,31 @@ def cria():
     # db.session.add(tr2)
     db.session.commit()
 
+
+def email(destinatario, conteudo):
+    remetente = ""
+    senha = ""
+
+    mensagem = MIMEMultipart()
+    mensagem['From'] = remetente
+    mensagem['To'] = destinatario
+    mensagem['Subject'] = "Produto trocado"
+    mensagem.attach(MIMEText(conteudo, "produt foi trocado às X horas"))
+
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(remetente, senha)
+
+    texto = mensagem.as_string()
+    server.sendmail(remetente, destinatario, texto)
+
+    server.quit
+
 #usado pra criar o bd
 with app.app_context():
     db.create_all()
     # cria()
+    email("vayeg74730@glumark.com", "repolho")
 
 #PROFESSOR
 @app.route("/professor/<int:u>", methods=["POST", "GET"])
