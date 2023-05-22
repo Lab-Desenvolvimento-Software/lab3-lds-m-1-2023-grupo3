@@ -24,11 +24,8 @@ def cria():
     db.session.add(alun)
     db.session.commit()
 
-    # tr0 = Transaca(origem=instituicao)?
     prod = Produto(nome="replho", descricao="1(uma) undade de repolho", preco=50, id_parceiro=p.id)
     db.session.add(prod)
-    # db.session.add(tr1)
-    # db.session.add(tr2)
     db.session.commit()
 
 
@@ -69,15 +66,16 @@ def professor(u):
 @app.route("/professor/<int:u>/<int:j>", methods=["POST", "GET"])
 def mandarMoedas(u, j):
     aluno = db.session.get(Aluno, j)
-    tr = Transacao(origem=u, 
-                   destino=aluno.id, 
-                   valor=request.form["valor"], 
-                   data=datetime.now(), 
-                   mensagem=request.form["mensagem"])
-    db.session.add(tr)
     prof = db.session.get(Professor, u)
-    prof.moedas = prof.moedas-int(request.form["valor"])
-    db.session.commit()
+    if prof.moedas >= request.form["valor"] and request.form["mensagem"].strip() == "":
+        tr = Transacao(origem=u, 
+                    destino=aluno.id, 
+                    valor=request.form["valor"], 
+                    data=datetime.now(), 
+                    mensagem=request.form["mensagem"])
+        db.session.add(tr)
+        prof.moedas -= int(request.form["valor"])
+        db.session.commit()
     return professor(u)
 
 # ALUNO
@@ -87,22 +85,24 @@ def aluno(u):
     inst = db.session.get(Instituicao, aluno.id_instituicao)
     tp = Transacao.query.filter_by(destino=u).all()
     tf = Transacao.query.filter_by(origem=u)
-    prof = Professor.query.all()
+    prof = Professor.query.all() #função pra retornar o nome em si, n o ID
     prod = Produto.query.all()
     return render_template("/aluno.html", aluno=aluno, inst=inst, tp=tp, tf=tf, prod=prod, prof=prof)
 
 @app.route("/aluno/<int:u>/<int:j>", methods=["POST", "GET"])
 def compraProd(u, j):
+    aln = db.session.get(Aluno, u)
     prod = db.session.get(Produto, j)
-    tn = Transacao(origem=u, 
-                   destino=prod.id_parceiro, 
-                   valor=prod.preco, 
-                   data=datetime.now(),
-                   mensagem="")
-    db.session.add(tn)
-    alun = db.session.get(Aluno, u)
-    alun.moedas = alun.moedas-prod.preco
-    db.session.commit()
+    if aln.moedas >= prod.preco:
+        tn = Transacao(origem=u, 
+                    destino=prod.id_parceiro, 
+                    valor=prod.preco, 
+                    data=datetime.now(),
+                    mensagem="")
+        db.session.add(tn)
+        alun = db.session.get(Aluno, u)
+        alun.moedas -= prod.preco
+        db.session.commit()
     return aluno(u)
 
 #PARCEIRO
@@ -271,10 +271,9 @@ def verifica():
         case 'aluno':
             a = Aluno.query.all()
             sm = db.session.get(Aluno, id)
-            # if(sm in a and senha == sm.senha):
-            print("id: ", id, " sm: ", sm.nome)
-            print(sm in a)
-            print("senha: ", senha, " sm.senha: ", sm.senha)
+            # print("id: ", id, " sm: ", sm.nome)
+            # print(sm in a)
+            # print("senha: ", senha, " sm.senha: ", sm.senha)
             if(sm in a and senha == sm.senha):
                 return redirect(url_for("aluno", u=sm.id))
             

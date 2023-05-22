@@ -43,9 +43,6 @@ li {
 .tab-list li {
   cursor: pointer;
   padding: 10px 15px;
-  /* background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  border-bottom: none; */
 }
 
 .tab-list li.active {
@@ -63,4 +60,8 @@ li {
 
 .context {
   flex: 1;
+}
+
+.transacao {
+  padding: 10px;
 }

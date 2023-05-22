@@ -1,55 +1,93 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Tabs from "./components/Tabs";
 
 function App() {
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
+  const [alunoData, setAlunoData] = useState(null);
+  const [transacoesData, setTransacoesData] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/aluno/4")
-      .then((response) => response.json())
-      .then((data) => setData(data));
+    fetchAlunoData();
+    fetchTransacoesData();
   }, []);
 
-  if (!data) {
+  const fetchAlunoData = () => {
+    axios.get("http://127.0.0.1:5000/aluno/4")
+      .then((response) => {
+        setAlunoData(response.data); 
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
+  const fetchTransacoesData = () => {
+    axios.get("http://127.0.0.1:5000/transacoes/4")
+      .then((response) => {
+        setTransacoesData(response.data); 
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
+  const compraProduto = (produtoId) => {
+    axios.post(`http://127.0.0.1:5000/aluno/4/compra/${produtoId}`)
+      .then((response) => {
+        console.log(response.data);
+        // Atualize os dados do aluno e das transações após a compra ser realizada
+        fetchAlunoData();
+        fetchTransacoesData();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
+
+  if (!transacoesData || !alunoData) {
     return <p>Carregando...</p>;
   }
 
-  const {
-    aluno, instituicao, transacoes_recebidas, transacoes_enviadas, professores, produtos} = data;
+  const {aluno, instituicao, produtos} = alunoData;
+  const {transacoes_recebidas, transacoes_enviadas} = transacoesData;
   const tabs = [
-    {title: "Tab 1",
+    {title: "Transações recebidas",
      content: (
         <p>
           <h2>Transações Recebidas</h2>
           {transacoes_recebidas.map((transacao) => (
-            <div key={transacao.id}>
-              <p>ID: {transacao.id}</p>
-              <p>Valor: {transacao.valor ?? "N/A"}</p>
-              {/* Exiba os demais dados da transação */}
+            <div class="transacao" key={transacao.id}>
+              <p>Origem: {transacao.tipo} {transacao.origem}</p>
+              <p>Valor: {transacao.valor}</p>
+              <p>Mensagem: {transacao.mensagem}</p>
+              <p>Data: {transacao.data}</p>
             </div>
           ))}
         </p>)},
-    {title: "Tab 2",
+    {title: "Transações enviadas",
      content: (
         <p>
           <h2>Transações Enviadas</h2>
           {transacoes_enviadas.map((transacao) => (
             <div key={transacao.id}>
-              <p>ID: {transacao.id}</p>
-              <p>Valor: {transacao.valor ?? "N/A"}</p>
-              {/* Exiba os demais dados da transação */}
+              <p>destino: {transacao.destino}</p>
+              <p>Valor: {transacao.valor}</p>
+              <p>Mensagem: {transacao.mensagem}</p>
+              <p>Data: {transacao.data}</p>
             </div>
           ))}
         </p>)},
-    {title: "Tab 3",
+    {title: "Produtos",
      content: (
         <p>
           <h2>Produtos</h2>
           {produtos.map((produto) => (
             <div key={produto.id}>
               <p>ID: {produto.id}</p>
-              <p>Nome: {produto.nome ?? "N/A"}</p>
-              {/* Exiba os demais dados do produto */}
+              <p>Nome: {produto.nome}</p>
+              <button onClick={() => compraProduto(produto.id)}>Comprar</button>
             </div>
           ))}
         </p>)},
