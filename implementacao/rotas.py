@@ -43,11 +43,7 @@ def aluno(u):
     if request.method == "GET":
         aluno = db.session.get(Aluno, u)
         inst = db.session.get(Instituicao, aluno.id_instituicao)
-        # tp = Transacao.query.filter_by(destino=u).all()
-        # tf = Transacao.query.filter_by(origem=u).all()
-        # prof = Professor.query.all()
         prod = Produto.query.all()
-        # transacoes = transacoes(u)
         res = jsonify({
             "aluno": {
                 "id": aluno.id,
@@ -102,11 +98,6 @@ def compra_prod(u, prod):
 
         return jsonify({"success": True, "message": "Compra realizada com sucesso!"}), 200
 
-
-# @app.route("transacao/<int:origem>/<int:destino>", methods=["POST, GET"])
-# def transacao(origem, destino):
-    
-#     return res
 
 if __name__ == '__main__':
    app.run()

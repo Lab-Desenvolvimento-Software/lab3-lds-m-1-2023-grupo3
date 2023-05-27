@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <h3>Informaçẽos pessoais: </h3>
+            <h3>Informações pessoais: </h3>
             <p>id: {{ adm.id }}</p>
             <p>nome: {{ adm.nome }}</p>
             <p>endereco: {{ adm.endereco }}</p>
@@ -32,14 +32,34 @@
                 <div id="alunos" class="tabcontent">
                     {% for al in aluno %}
                         <form action="/administrador/{{ adm.id }}/aluno/{{ al.id }}" method="POST">
-                            <p>id: {{ al.id }}</p>
-                            <p>nome: {{ al.nome }}<input type="text" name="nome"></p>
-                            <p>endereco: {{ al.endereco }}<input type="text" name="endereco"></p>
-                            <p>email: {{ al.email }}<input type="text" name="email"></p>
-                            <p>senha: {{ al.senha }}<input type="text" name="senha"></p>
-                            <p>cpf: {{ al.cpf}}<input type="number" name="cpf"></p>
-                            <p>rg: {{ al.rg }}<input type="number" name="rg"></p>
-                            <p>curso: {{ al.curso }}<input type="text" name="curso"></p>
+                            <p>ID: {{ al.id }}</p>
+                            <p>
+                                <label for="nome">Nome:</label>
+                                <input type="text" name="nome" value="{{ al.nome }}">
+                            </p>
+                            <p>
+                                <label for="endereco">Endereco:</label>
+                                <input type="text" name="endereco" value="{{ al.endereco }}"></input>
+                            </p>
+                            <p>
+                                <label for="email">Email:</label>
+                                <input type="text" name="email" value="{{ al.email }}"></input>
+                            </p>
+                            <p>
+                                <label for="senha">Senha:</label>
+                                <input type="text" name="senha" value="{{ al.senha }}"></input>
+                            </p>
+                            <p>
+                                <label for="cpf">CPF:</label>
+                                <input type="number" name="cpf" value="{{ al.cpf }}"></input>
+                            </p>
+                            <p>
+                                <label for="rg">RG:</label>
+                                <input type="number" name="rg" value="{{ al.rg }}"></input>
+                            </p>
+                            
+                            <label for="curso">Curso:</label>
+                            <input type="text" name="curso" value="{{ al.curso }}"></input>
                             <P>instituicão: {{ al.instituicao }}<select name="instituicao">
                                 {% for i in inst %}
                                     <option value="{{ i.id }}">{{ i.nome }}</option>
