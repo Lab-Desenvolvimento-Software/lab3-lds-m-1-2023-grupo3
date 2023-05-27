@@ -34,7 +34,6 @@ class Parceiro(Usuario):
 class Administrador(Usuario):
     id_administrador = db.Column(db.Integer, db.ForeignKey('usuario.id'), primary_key=True)
 
-
 class Instituicao(db.Model):
     id = db.Column("id_instituicao", db.Integer, primary_key=True)
     nome = db.Column(db.String(40))
@@ -46,6 +45,7 @@ class Produto(db.Model):
     nome = db.Column(db.String(100))
     descricao = db.Column(db.String(320))
     preco = db.Column(db.Integer)
+    img = db.Column(db.String(100)) 
     id_parceiro = db.Column(db.Integer, db.ForeignKey("parceiro.id_parceiro")) #relação
     
 

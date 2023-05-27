@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
 from datetime import datetime
-import smtplib, ssl
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+from controller import *
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///moeda.db"
@@ -119,6 +117,14 @@ def addProd(u):
                    descricao=request.form["descricao"], 
                    preco=request.form["preco"], 
                    id_parceiro=u)
+    arq = request.files.get("img")
+    if arq:
+        # path = os.path.abspath("imgProdutos")
+        # path_join = os.path.join(path, arq.filename)
+        arq.save(f"static/imgProdutos/{arq.filename}")
+        # arq.save(path_join)
+        prod.img = arq.filename
+    
     db.session.add(prod)
     db.session.commit()
     return parceiro(u)
@@ -147,8 +153,9 @@ def administrador(u):
     parca = Parceiro.query.all()
     prof = Professor.query.all()
     inst = Instituicao.query.all()
+    dict_inst = {ins.id: ins for ins in inst}
     aluno = Aluno.query.all()
-    return render_template("administrador.html", adm=adm, adms=adms, parca=parca, prof=prof, inst=inst, aluno=aluno)
+    return render_template("administrador.html", adm=adm, adms=adms, parca=parca, prof=prof, inst=inst, dict_inst=dict_inst, aluno=aluno)
 
 @app.route("/administrador/<int:u>/<tipo>/<int:id>", methods=["POST", "GET"])
 def amdEdit(u, tipo, id):
