@@ -13,16 +13,16 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <h3>Informaçẽos pessoais:</h3>
-            <p>id: {{ aluno.id }}</p>
-            <p>nome: {{ aluno.nome }}</p>
-            <p>endereco: {{ aluno.endereco }}</p>
-            <p>email: {{ aluno.email }}</p>
-            <p>cpf: {{ aluno.cpf }} </p>
-            <p>rg: {{ aluno.rg }}</p>
-            <p>curso: {{ aluno.curso }}</p>
-            <p>moedas: {{ aluno.moedas }}</p>
-            <p>instituição: {{ inst.nome }}</p>
+            <h3>Informações pessoais:</h3>
+            <p><label for="id">ID:</label> <span>{{ aluno.id }}</span></p>
+            <p><label for="nome">Nome:</label> <span>{{ aluno.nome }}</span></p>
+            <p><label for="endereco">Endereço:</label> <span>{{ aluno.endereco }}</span></p>
+            <p><label for="email">Email:</label> <span>{{ aluno.email }}</span></p>
+            <p><label for="cpf">CPF:</label> <span>{{ aluno.cpf }}</span></p>
+            <p><label for="rg">RG:</label> <span>{{ aluno.rg }}</span></p>
+            <p><label for="curso">Curso:</label> <span>{{ aluno.curso }}</span></p>
+            <p><label for="moedas">Moedas:</label> <span>{{ aluno.moedas }}</span></p>
+            <p><label for="instituicao">Instituição:</label> <span>{{ inst.nome }}</span></p>            
         </div>
 
         <div class="tabs">
@@ -36,42 +36,30 @@
                 <div id="transacoesRecebidas" class="tabcontent">
                     {% for t in tp %}
                     <h5>{{ t.id }}</h5>
-                    <p>
-                        {% for prf in prof %}
-                        {% if prf.id == t.origem %}
-                        {{ prf.nome }}
-                        {% endif %}
-                        {% endfor %}
-                    </p>
-                    <p>valor: {{ t.valor }}</p>
-                    <p>data: {{ t.data }}</p>
-                    <p>mensagem: {{ t.mensagem }}</p>
+                    <p><label for="origem">Professor:</label> <span>{{ pf_nomes[t.origem] }}</span></p>
+                    <p><label for="valor">Valor:</label> <span>{{ t.valor }}</span></p>
+                    <p><label for="data">Data:</label> <span>{{ t.data }}</span></p>
+                    <p><label for="mensagem">Mensagem:</label> <span>{{ t.mensagem }}</span></p>                    
                     {% endfor %}
                 </div>
 
                 <div id="transacoesFeitas" class="tabcontent">
                     {% for a in tf %}
-                    <h5>{{ a.id }}</h5>
-                    <p>parceiro: {{ a.destino }}</p>
-                    <p>valor: {{ a.valor }}</p>
-                    <p>data: {{ a.data }}</p>
-                    <p>mensagem: {{ a.mensagem }}</p>
+                    <p><label for="destino">Parceiro:</label> <span>{{ pr_nomes[a.destino] }}</span></p>
+                    <p><label for="valor">Valor:</label> <span>{{ a.valor }}</span></p>
+                    <p><label for="data">Data:</label> <span>{{ a.data }}</span></p>
+                    <p><label for="mensagem">Mensagem:</label> <span>{{ a.mensagem }}</span></p>                    
                     {% endfor %}
                 </div>
 
                 <div id="trocarVantagens" class="tabcontent">
                     {% for prod in prod %}
                     <form action="/aluno/{{ aluno.id }}/{{ prod.id }}" method="POST">
-                        <h5>{{ prod.nome }}</h5>
-                        <p>{{ prod.descricao }}</p>
-                        <p>{{ prod.preco }}</p>
-                        <p>
-                            {% for prf in prof %}
-                            {% if prf.id == prod.id_parceiro %}
-                            {{ prf.nome }}
-                            {% endif %}
-                            {% endfor %}
-                        </p>
+                        <p><label for="nome">Nome:</label> <span>{{ prod.nome }}</span></p>
+                        <p><label for="descricao">Descrição:</label> <span>{{ prod.descricao }}</span></p>
+                        <p><label for="preco">Preço:</label><span>{{ prod.preco }}</span></p>
+                        <p><label for="parceiro">Parceiro:</label><span>{{ pr_nomes[prod.id_parceiro] }}</span></p>
+                        <p><img src="/static/imgProdutos/{{ prod.img }}"></p>
                         <p><input type="submit" value="post" /></p>
                     </form>
                     {% endfor %}

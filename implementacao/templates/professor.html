@@ -13,15 +13,15 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <h3>Informações pessoais: </h3>
-            <p>Nome: {{ prof.nome }}</p>
-            <p>Endereco: {{ prof.endereco }}</p>
-            <p>Email: {{ prof.email }}</p>
-            <p>Cpf: {{ prof.cpf}} </p>
-            <p>RG: {{ prof.rg }}</p>
-            <p>Separtamento: {{ prof.departamento }}</p>
-            <p>Moedas: {{ prof.moedas }}</p>
-            <p>Instituição: {{ inst.nome }}</p>
+            <h3>Informações pessoais:</h3>
+            <p><label for="nome">Nome:</label> <span>{{ prof.nome }}</span></p>
+            <p><label for="endereco">Endereço:</label> <span>{{ prof.endereco }}</span></p>
+            <p><label for="email">Email:</label> <span>{{ prof.email }}</span></p>
+            <p><label for="cpf">CPF:</label> <span>{{ prof.cpf }}</span></p>
+            <p><label for="rg">RG:</label> <span>{{ prof.rg }}</span></p>
+            <p><label for="departamento">Departamento:</label> <span>{{ prof.departamento }}</span></p>
+            <p><label for="moedas">Moedas:</label> <span>{{ prof.moedas }}</span></p>
+            <p><label for="instituicao">Instituição:</label> <span>{{ inst.nome }}</span></p>            
         </div>
 
         <div class="tabs">
@@ -33,39 +33,68 @@
 
             <!-- <div class="tab-content">
                 <div id="transacoesRecebidas" class="tabcontent">
-
+                    {% for t in tp %}
+                    <h5>{{ t.id }}</h5>
+                    <p>
+                        {% for aln in aluno %}
+                            {% if aln.id == t.origem %}
+                                {{ aln.nome }}
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>valor: {{ t.valor }}</p>
+                    <p>data: {{ t.data }}</p>
+                    <p>mensagem: {{ t.mensagem }}</p>
+                    {% endfor %}
                 </div>
             </div> -->
-
-            <div id="transacoesFeitas" class="tabcontent">
-                {% for t in tp %}
-                <h5>{{ t.id }}</h5>
-                <p>
-                    {% for aln in aluno %}
-                    {% if aln.id == t.origem %}
-                    {{ aln.nome }}
-                    {% endif %}
+            <div class="tab-content">
+                <div id="transacoesFeitas" class="tabcontent">
+                    {% for t in tp %}
+                    <h5>{{ t.id }}</h5>
+                    <p>
+                        <label for="destino">Destino:</label>
+                        <span>{{ al_nomes[t.destino] }}</span>
+                    </p>
+                    <p>
+                        <label for="valor">Valor:</label>
+                        <span>{{ t.valor }}</span>
+                    </p>
+                    <p>
+                        <label for="data">Data:</label>
+                        <span>{{ t.data }}</span>
+                    </p>
+                    <p>
+                        <label for="mensagem">Mensagem:</label>
+                        <span>{{ t.mensagem }}</span>
+                    </p>
+                    
                     {% endfor %}
-                </p>
-                <p>valor: {{ t.valor }}</p>
-                <p>data: {{ t.data }}</p>
-                <p>mensagem: {{ t.mensagem }}</p>
-                {% endfor %}
+                </div>
             </div>
-
-            <div id="enviarMoedas" class="tabcontent">
-                {% for al in aluno %}
-                <form action="/professor/{{ prof.id }}/{{ al.id }}" method="POST">
-                    <h5>{{ al.nome }}</h5>
-                    <p><input type="text" name="mensagem" placeholder="mensagem" /></p>
-                    <p><input type="number" name="valor" placeholder="valor" /></p>
-                    <p><input type="submit" value="post" /></p>
-                </form>
-                {% endfor %}
+            <div class="tab-content">
+                <div id="enviarMoedas" class="tabcontent">
+                    {% for al in aluno %}
+                    <form action="/professor/{{ prof.id }}/{{ al.id }}" method="POST">
+                        <h5>{{ al.nome }}</h5>
+                        <p>
+                            <label for="mensagem">Mensagem: </label>
+                            <input type="text" name="mensagem" placeholder="mensagem" required>
+                        </p>
+                        <p>
+                            <label for="valor">Valor: </label>
+                            <input type="number" name="valor" placeholder="valor" required>
+                        </p>
+                        <p>
+                            <input type="submit" value="post" />
+                        </p>
+                    </form>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-
     </div>
+
 
     <script src="../static/script.js"></script>
 
