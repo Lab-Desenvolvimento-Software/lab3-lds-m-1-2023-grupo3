@@ -32,7 +32,6 @@ def cria():
 with app.app_context():
     db.create_all()
     # cria()
-    email("vayeg74730@glumark.com", "repolho")
 
 #PROFESSOR
 @app.route("/professor/<int:u>", methods=["POST", "GET"])
