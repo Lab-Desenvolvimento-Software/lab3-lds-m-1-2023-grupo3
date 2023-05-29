@@ -25,7 +25,18 @@ input[type="submit"]:hover {
     background-color: #45a049;
 }
 
-form  { display: table;      }
-p     { display: table-row;  }
-label { display: table-cell; }
-input { display: table-cell; }
+form  { display: table;}
+
+p     { display: table-row;}
+
+label { 
+    display: table-cell; 
+    padding: 4px;
+    font-weight: bold;
+}
+
+input { display: table-cell;}
+
+img {
+    max-width: 300px;
+}

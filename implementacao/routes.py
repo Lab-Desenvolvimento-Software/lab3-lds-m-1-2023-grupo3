@@ -16,8 +16,8 @@ def cria():
     db.session.add(a)
     db.session.commit()
 
-    prof = Professor(nome="prof", endereco="rua123", email="mail", senha="123", tipo="professor", cpf=123, departamento="ICEI", moedas=0, id_instituicao=c.id)
-    alun = Aluno(nome="alun", endereco="rua123", email="mail", senha="123", tipo="aluno", cpf=123, rg=123123, curso="curso", moedas=0, id_instituicao=c.id)
+    prof = Professor(nome="prof", endereco="rua123", email="mail", senha="123", tipo="professor", cpf=123, departamento="ICEI", moedas=1000, id_instituicao=c.id)
+    alun = Aluno(nome="alun", endereco="rua123", email="mail", senha="123", tipo="aluno", cpf=123, rg=123123, curso="curso", moedas=1000, id_instituicao=c.id)
     db.session.add(prof)
     db.session.add(alun)
     db.session.commit()
@@ -37,14 +37,18 @@ def professor(u):
     prof = db.session.get(Professor, u) 
     inst = db.session.get(Instituicao, prof.id_instituicao)
     tp = Transacao.query.filter_by(origem=u).all()
+    # tr = Transacao.query.filter_by(destino=u).all()
     aluno = Aluno.query.all()
-    return render_template("/professor.html", aluno=aluno, inst=inst, tp=tp, prof=prof)
+    al_nomes = {}
+    for a in Aluno.query.all():
+        al_nomes[a.id_aluno] = a.nome
+    return render_template("/professor.html", aluno=aluno, inst=inst, tp=tp, prof=prof, al_nomes=al_nomes)
 
 @app.route("/professor/<int:u>/<int:j>", methods=["POST", "GET"])
 def mandarMoedas(u, j):
     aluno = db.session.get(Aluno, j)
     prof = db.session.get(Professor, u)
-    if prof.moedas >= request.form["valor"] and request.form["mensagem"].strip() == "":
+    if prof.moedas >= int(request.form["valor"]):
         tr = Transacao(origem=u, 
                     destino=aluno.id, 
                     valor=request.form["valor"], 
@@ -53,7 +57,9 @@ def mandarMoedas(u, j):
         db.session.add(tr)
         prof.moedas -= int(request.form["valor"])
         db.session.commit()
-    return professor(u)
+        #emaill pro aluno
+    return redirect(url_for("professor", u=u))
+
 
 # ALUNO
 @app.route("/aluno/<int:u>", methods=["POST", "GET"])
@@ -62,25 +68,34 @@ def aluno(u):
     inst = db.session.get(Instituicao, aluno.id_instituicao)
     tp = Transacao.query.filter_by(destino=u).all()
     tf = Transacao.query.filter_by(origem=u)
-    prof = Professor.query.all() #função pra retornar o nome em si, n o ID
+    prof = Professor.query.all()
     prod = Produto.query.all()
-    return render_template("/aluno.html", aluno=aluno, inst=inst, tp=tp, tf=tf, prod=prod, prof=prof)
+    pf_nomes = {}
+    for p in Professor.query.all():
+        pf_nomes[p.id_professor] = p.nome
+    pr_nomes = {}
+    for pr in Parceiro.query.all():
+        pr_nomes[pr.id_parceiro] = pr.nome
+    return render_template("/aluno.html", aluno=aluno, inst=inst, tp=tp, tf=tf, prod=prod, prof=prof, pf_nomes=pf_nomes, pr_nomes=pr_nomes)
 
 @app.route("/aluno/<int:u>/<int:j>", methods=["POST", "GET"])
 def compraProd(u, j):
     aln = db.session.get(Aluno, u)
     prod = db.session.get(Produto, j)
     if aln.moedas >= prod.preco:
+        msg = prod.nome + " comprado!"
         tn = Transacao(origem=u, 
                     destino=prod.id_parceiro, 
                     valor=prod.preco, 
                     data=datetime.now(),
-                    mensagem="")
+                    mensagem=msg)
         db.session.add(tn)
         alun = db.session.get(Aluno, u)
         alun.moedas -= prod.preco
         db.session.commit()
-    return aluno(u)
+        # emaill parceiro c/ codigo de identificação
+    return redirect(url_for("aluno", u=u))
+
 
 #PARCEIRO
 @app.route("/parceiro/<int:u>", methods=["POST", "GET"])
@@ -98,15 +113,12 @@ def addProd(u):
                    id_parceiro=u)
     arq = request.files.get("img")
     if arq:
-        # path = os.path.abspath("imgProdutos")
-        # path_join = os.path.join(path, arq.filename)
         arq.save(f"static/imgProdutos/{arq.filename}")
-        # arq.save(path_join)
         prod.img = arq.filename
     
     db.session.add(prod)
     db.session.commit()
-    return parceiro(u)
+    return redirect(url_for("parceiro", u=u))
 
 @app.route("/parceiro/<int:u>/<int:j>", methods=["POST", "GET"])
 def editProd(u, j):
@@ -115,14 +127,15 @@ def editProd(u, j):
     prod.descricao=request.form["descricao"]
     prod.preco=request.form["preco"]
     db.session.commit()
-    return parceiro(u)
+    return redirect(url_for("parceiro", u=u))
 
 @app.route("/parceiro/<int:u>/delete/<int:j>", methods=["POST", "GET", "REMOVE"])
 def delProd(u, j):
     prod = db.session.get(Produto, j)
     db.session.delete(prod)
-    db.session.commit
-    return parceiro(u)
+    db.session.commit()
+    return redirect(url_for("parceiro", u=u))
+
 
 #ADMINISTRADOR
 @app.route("/administrador/<int:u>", methods=["POTS", "GET"])
@@ -186,7 +199,7 @@ def amdEdit(u, tipo, id):
             adim.senha = request.form["senha"]
             db.session.commit()
 
-    return administrador(u)
+    return redirect(url_for("administrador", u=u))
 
 @app.route("/administrador/<int:u>/<tipo>", methods=["POST", "GET"])
 def admAdd(u, tipo):
@@ -208,7 +221,7 @@ def admAdd(u, tipo):
             db.session.add(inst)
             db.session.commit()
 
-        case 'adm':
+        case 'adim':
             admin = Administrador(nome=request.form["nome"],
                                   endereco=request.form["endereco"], 
                                   email=request.form["email"], 
@@ -216,7 +229,7 @@ def admAdd(u, tipo):
             db.session.add(admin)
             db.session.commit()
 
-    return administrador(u)
+    return redirect(url_for("administrador", u=u))
 
 @app.route("/administrador/<int:u>/rm/<tipo>/<int:id>", methods=["POST", "GET", "REMOVE"])
 def admRm(u, tipo, id):
@@ -241,7 +254,7 @@ def admRm(u, tipo, id):
             db.session.delete(adim)
             db.session.commit()
 
-    return administrador(u)
+    return redirect(url_for("administrador", u=u))
 
 #LOGIN/REGISTRAR
 @app.route("/login", methods=["GET", "POST"])
@@ -257,9 +270,6 @@ def verifica():
         case 'aluno':
             a = Aluno.query.all()
             sm = db.session.get(Aluno, id)
-            # print("id: ", id, " sm: ", sm.nome)
-            # print(sm in a)
-            # print("senha: ", senha, " sm.senha: ", sm.senha)
             if(sm in a and senha == sm.senha):
                 return redirect(url_for("aluno", u=sm.id))
             
@@ -281,7 +291,7 @@ def verifica():
             if(sm in a and senha == sm.senha):
                 return redirect(url_for("administrador", u=sm.id))
 
-    return login()
+    return login() #talvez retortnar popup
 
 @app.route("/registrar", methods=["POST", "GET"])
 def registrar():
