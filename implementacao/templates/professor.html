@@ -1,47 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ prof.nome }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
 </head>
+
 <body>
-    <h3>Informaçẽos pessoais: </h3>
-    <p>nome: {{ prof.nome }}</p>
-    <p>endereco: {{ prof.endereco }}</p>
-    <p>email: {{ prof.email }}</p>
-    <p>cpf: {{ prof.cpf}} </p>
-    <p>rg: {{ prof.rg }}</p>
-    <p>departamento: {{ prof.departamento }}</p>
-    <p>moedas: {{ prof.moedas }}</p>
-    <p>instituição: {{ inst.nome }}</p>
+    <div class="container">
+        <div class="sidebar">
+            <h3>Informações pessoais:</h3>
+            <p><label for="nome">Nome:</label> <span>{{ prof.nome }}</span></p>
+            <p><label for="endereco">Endereço:</label> <span>{{ prof.endereco }}</span></p>
+            <p><label for="email">Email:</label> <span>{{ prof.email }}</span></p>
+            <p><label for="cpf">CPF:</label> <span>{{ prof.cpf }}</span></p>
+            <p><label for="rg">RG:</label> <span>{{ prof.rg }}</span></p>
+            <p><label for="departamento">Departamento:</label> <span>{{ prof.departamento }}</span></p>
+            <p><label for="moedas">Moedas:</label> <span>{{ prof.moedas }}</span></p>
+            <p><label for="instituicao">Instituição:</label> <span>{{ inst.nome }}</span></p>            
+        </div>
 
-    <h3>Histórico transacoes feitas: </h3>
-        {% for t in tp %}
-            <h5>{{ t.id }}</h5> 
-            <p>
-                {% for aln in aluno %}
-                    {% if aln.id == t.origem %} 
-                        {{ aln.nome }} 
-                    {% endif %}
-                {% endfor %}
-            </p>
-            <p>valor: {{ t.valor }}</p>
-            <p>data: {{ t.data }}</p>
-            <p>mensagem: {{ t.mensagem }}</p>
+        <div class="tabs">
+            <div class="tab-list">
+                <!-- <li class="tablinks" onclick="openTab(event, 'transacoesRecebidas')">Histórico transacoes recebidas</li> -->
+                <li class="tablinks" onclick="openTab(event, 'transacoesFeitas')">Histórico transações feitas</li>
+                <li class="tablinks" onclick="openTab(event, 'enviarMoedas')">Enviar moedas</li>
+            </div>
 
-        {% endfor %}
+            <!-- <div class="tab-content">
+                <div id="transacoesRecebidas" class="tabcontent">
+                    {% for t in tp %}
+                    <h5>{{ t.id }}</h5>
+                    <p>
+                        {% for aln in aluno %}
+                            {% if aln.id == t.origem %}
+                                {{ aln.nome }}
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>valor: {{ t.valor }}</p>
+                    <p>data: {{ t.data }}</p>
+                    <p>mensagem: {{ t.mensagem }}</p>
+                    {% endfor %}
+                </div>
+            </div> -->
+            <div class="tab-content">
+                <div id="transacoesFeitas" class="tabcontent">
+                    {% for t in tp %}
+                    <h5>{{ t.id }}</h5>
+                    <p>
+                        <label for="destino">Destino:</label>
+                        <span>{{ al_nomes[t.destino] }}</span>
+                    </p>
+                    <p>
+                        <label for="valor">Valor:</label>
+                        <span>{{ t.valor }}</span>
+                    </p>
+                    <p>
+                        <label for="data">Data:</label>
+                        <span>{{ t.data }}</span>
+                    </p>
+                    <p>
+                        <label for="mensagem">Mensagem:</label>
+                        <span>{{ t.mensagem }}</span>
+                    </p>
+                    
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="enviarMoedas" class="tabcontent">
+                    {% for al in aluno %}
+                    <form action="/professor/{{ prof.id }}/{{ al.id }}" method="POST">
+                        <h5>{{ al.nome }}</h5>
+                        <p>
+                            <label for="mensagem">Mensagem: </label>
+                            <input type="text" name="mensagem" placeholder="mensagem" required>
+                        </p>
+                        <p>
+                            <label for="valor">Valor: </label>
+                            <input type="number" name="valor" placeholder="valor" required>
+                        </p>
+                        <p>
+                            <input type="submit" value="post" />
+                        </p>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <h3>Enviar moedas: </h3>
-        {% for al in aluno %}
-            <form action="/professor/{{ prof.id }}/{{ al.id }}" method="POST">
-                <h5>{{ al.nome }}</h5>
-                <p><input type="text" name="mensagem" placeholder="mensagem" /></p>
-                <p><input type="number" name="valor" placeholder="valor" /></p>
-                <p><input type="submit" value="post"/></p>
-            </form>
-        {% endfor %}
+
+    <script src="../static/script.js"></script>
+
 
 </body>
+
 </html>

@@ -34,22 +34,22 @@ US06 - Como Usuário Financeiro, eu gostaria de consultar o extrato de moedas pa
 
 US07 - Como Usuário Financeiro, eu gostaria de consultar o meu saldo de moedas para verificar quantas moedas ainda posso utilizar.
 
-- Aluno:
-
-US08.1 - Como aluno, eu gostaria de poder receber moedas dos professores que entenderem que mereço reconhecimento pelo meu comportamento e por participar das aulas.
-
-US08.2 - Como aluno, eu gostaria de receber um e-mail com o cupom da troca de moeda por vantagem que realizei.
-
-US08.3 - Como aluno, eu gostaria de trocar minhas moedas por vantagens para conseguir os benefícios das vantagens.
-
-US08.4 - Como aluno, eu gostaria de receber um e-mail notificando quando eu receber moedas de professores, assim não preciso ficar consultanto o meu saldo de moedas para verificar se recebi moedas.
-
 - Professor:
 
-US09 - Como professor, eu gostaria de poder enviar moedas para os alunos que tem bom comportamento e participam das aulas como forma de reconhecimento.
+US08.1 - Como professor, eu gostaria de poder enviar moedas para os alunos que tem bom comportamento e participam das aulas como forma de reconhecimento.
+
+- Aluno:
+
+US08.2 - Como aluno, eu gostaria de poder receber moedas dos professores que entenderem que mereço reconhecimento pelo meu comportamento e por participar das aulas.
+
+US08.3 - Como aluno, eu gostaria de receber um e-mail notificando quando eu receber moedas de professores, assim não preciso ficar consultanto o meu saldo de moedas para verificar se recebi moedas.
+
+US09.1 - Como aluno, eu gostaria de trocar minhas moedas por vantagens para conseguir os benefícios das vantagens.
+
+US09.2 - Como aluno, eu gostaria de receber um e-mail com o cupom da troca de moeda por vantagem que realizei.
 
 - Empresas parceiras:
 
-US10.1 - Como empresa parceira, eu gostaria de cadastrar uma vantagem para que os alunos cadastrados no sistema possam trocá-la por moedas.
+US09.3 - Como empresa parceira, eu gostaria de receber um e-mail quando um aluno trocar moedas por uma vantagem que cadastrei para que eu possa conferir a troca.
 
-US10.2 - Como empresa parceira, eu gostaria de receber um e-mail quando um aluno trocar moedas por uma vantagem que cadastrei para que eu possa conferir a troca.
+US10 - Como empresa parceira, eu gostaria de cadastrar uma vantagem para que os alunos cadastrados no sistema possam trocá-la por moedas.

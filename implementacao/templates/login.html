@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form action="/verifica" method="POST">
+            <label for="id">ID:</label>
+            <input type="text" name="id" id="id">
+            
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha">
+            
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo">
+                <option value="aluno">Aluno</option>
+                <option value="prof">Professor</option>
+                <option value="parc">Parceiro</option>
+                <option value="admin">Administrador</option>
+            </select>
+            
+            <input type="submit" value="Entrar">
+        </form>
+    </div>
+</body>
+</html>

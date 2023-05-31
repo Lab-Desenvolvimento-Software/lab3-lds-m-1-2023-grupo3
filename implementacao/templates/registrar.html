@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Registrar-se</h1>
+        <h3>Como Aluno:</h3>
+        <form action="/registrando" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome">
+            <label for="endereco">Endereço:</label>
+            <input type="text" name="endereco" id="endereco">
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email">
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha">
+            <label for="cpf">CPF:</label>
+            <input type="number" name="cpf" id="cpf">
+            <label for="rg">RG:</label>
+            <input type="number" name="rg" id="rg">
+            <label for="curso">Curso:</label>
+            <input type="text" name="curso" id="curso">
+            <label for="instituicao">Instituição:</label>
+            <select name="instituicao" id="instituicao">
+                {% for i in inst %}
+                    <option value="{{ i.id }}">{{ i.nome }}</option>
+                {% endfor %}
+            </select>
+            
+            <input type="hidden" name="tipo" value="aluno">
+            <p><input type="submit" value="post"></p>
+        </form>
+    <!-- </div>
+
+    <div class="container"> -->
+        <h3>Como Parceiro:</h3>
+        <form action="/registrando" method="POST">
+            <label for="nomeParceiro">Nome:</label>
+            <input type="text" name="nomeParceiro" id="nomeParceiro">
+            <label for="enderecoParceiro">Endereço:</label>
+            <input type="text" name="enderecoParceiro" id="enderecoParceiro">
+            <label for="emailParceiro">Email:</label>
+            <input type="text" name="emailParceiro" id="emailParceiro">
+            <label for="senhaParceiro">Senha:</label>
+            <input type="password" name="senhaParceiro" id="senhaParceiro">
+            <label for="cnpj">CNPJ:</label>
+            <input type="number" name="cnpj" id="cnpj">
+            <input type="hidden" name="tipo" value="parceiro">
+            <p><input type="submit" value="post"></p>
+        </form>        
+    </div>
+</body>
+</html>

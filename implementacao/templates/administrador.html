@@ -5,56 +5,296 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ adm.nome }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
 </head>
 <body>
-    <h3>Informaçẽos pessoais: </h3>
-    <p>nome: {{ adm.nome }}</p>
-    <p>endereco: {{ adm.endereco }}</p>
-    <p>email: {{ adm.email }}</p>
-    <p>cnpj: {{ adm.cnpj}}</p>
+    <div class="container">
+        <div class="sidebar">
+            <h3>Informações pessoais:</h3>
+            <p><label for="id">ID:</label> <span>{{ adm.id }}</span></p>
+            <p><label for="nome">Nome:</label> <span>{{ adm.nome }}</span></p>
+            <p><label for="endereco">Endereço:</label> <span>{{ adm.endereco }}</span></p>
+            <p><label for="email">Email:</label> <span>{{ adm.email }}</span></p>            
+        </div>
 
-    <h3>Alunos: </h3>
-    {% for al in aluno %}
-        <p>nome: {{ al.nome }}</p>
-        <p>endereco: {{ al.endereco }}</p>
-        <p>email: {{ al.email }}</p>
-        <p>cpf: {{ al.cpf}} </p>
-        <p>rg: {{ al.rg }}</p>
-        <p>curso: {{ al.curso }}</p>
-        <p>moedas: {{ al.moedas }}</p>
-    {% endfor %}
+        <div class="tabs">
+            <div class="tab-list">
+                <li class="tablinks" onclick="openTab(event, 'alunos')">Alunos</li>
+                <li class="tablinks" onclick="openTab(event, 'professores')">Professores</li>
+                <li class="tablinks" onclick="openTab(event, 'instituicoes')">Instituições</li>
+                <li class="tablinks" onclick="openTab(event, 'parceiros')">Parceiros</li>
+                <li class="tablinks" onclick="openTab(event, 'administradores')">Administradores</li>
+            </div>
+    
+            <div class="tab-content">
+                <div id="alunos" class="tabcontent">
+                    {% for al in aluno %}
+                        <form action="/administrador/{{ adm.id }}/aluno/{{ al.id }}" method="POST">
+                            <p>ID: {{ al.id }}</p>
+                            <p>
+                                <label for="nome">Nome:</label>
+                                <input type="text" name="nome" value="{{ al.nome }}">
+                            </p>
+                            <p>
+                                <label for="endereco">Endereco:</label>
+                                <input type="text" name="endereco" value="{{ al.endereco }}">
+                            </p>
+                            <p>
+                                <label for="email">Email:</label>
+                                <input type="text" name="email" value="{{ al.email }}">
+                            </p>
+                            <p>
+                                <label for="senha">Senha:</label>
+                                <input type="text" name="senha" value="{{ al.senha }}">
+                            </p>
+                            <p>
+                                <label for="cpf">CPF:</label>
+                                <input type="number" name="cpf" value="{{ al.cpf }}">
+                            </p>
+                            <p>
+                                <label for="rg">RG:</label>
+                                <input type="number" name="rg" value="{{ al.rg }}">
+                            </p>
+                            
+                            <label for="curso">Curso:</label>
+                            <input type="text" name="curso" value="{{ al.curso }}">
+                            <P>instituicão: {{ al.instituicao }}<select name="instituicao">
+                                {% for i in inst %}
+                                    <option value="{{ i.id }}">{{ i.nome }}</option>
+                                {% endfor %}
+                            </select></P>
+                            <p>
+                                <label for="moedas">Moedas: </label>
+                                <input type="number" name="moedas" value="{{ al.moedas }}">
+                            <p><input type="submit" value="post"></p>
+                        </form>
+                        <form action="/administrador/{{ adm.id }}/rm/aluno/{{ al.id }}" method="REMOVE">
+                            <input type="submit" value="delete">
+                        </form>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="professores" class="tabcontent">
+                    {% for pr in prof %}
 
-    <h3>Professores: </h3>
-    {% for pr in prof %}
-        <p>nome: {{ pr.nome }}</p>
-        <p>endereco: {{ pr.endereco }}</p>
-        <p>email: {{ pr.email }}</p>
-        <p>cpf: {{ pr.cpf}} </p>
-        <p>rg: {{ pr.rg }}</p>
-        <p>departamento: {{ pr.departamento }}</p>
-        <p>moedas: {{ pr.moedas }}</p>
-    {% endfor %}
+                        <form action="/administrador/{{ adm.id }}/prof/{{ pr.id }}" method="POST">
+                            <p>ID: {{ pr.id }}</p>
+                            <p>
+                                <label for="nome">Nome:</label>
+                                <input type="text" name="nome" value="{{ pr.nome }}">
+                            </p>
+                            <p>
+                                <label for="endereco">Endereco:</label>
+                                <input type="text" name="endereco" value="{{ pr.endereco }}">
+                            </p>
+                            <p>
+                                <label for="email">Email:</label>
+                                <input type="text" name="email" value="{{ pr.email }}">
+                            </p>
+                            <p>
+                                <label for="senha">Senha:</label>
+                                <input type="text" name="senha" value="{{ pr.senha }}">
+                            </p>
+                            <p>
+                                <label for="cpf">CPF:</label>
+                                <input type="number" name="cpf" value="{{ pr.cpf }}">
+                            </p>
+                            <p>
+                                <label for="departamento">Departamento:</label>
+                                <input type="text" name="departamento" value="{{ pr.departamento }}">
+                            </p>
+                            <p>
+                                <label for="instituicao">Instituição:</label>
+                                <select name="instituicao">
+                                    {% for i in inst %}
+                                    <option value="{{ i.id }}">{{ i.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+                            <p>
+                                <label for="moedas">Moedas:</label>
+                                <input type="number" name="moedas" value="{{ pr.moedas }}">
+                            </p>
+                            <p>
+                                <input type="submit" value="post">
+                            </p>
+                        </form>                        
+                        <form action="/administrador/{{ adm.id }}/rm/prof/{{ pr.id }}" method="REMOVE">
+                            <input type="submit" value="delete">
+                        </form>
+                    {% endfor %}
 
-    <h3>Instituições: </h3>
-    {% for ins in inst %}
-        <p>id: {{ ins.id }}</p>
-        <p>nome: {{ ins.nome }}</p>
-    {% endfor %}
+                    <form action="/administrador/{{ adm.id }}/prof" method="POST">
+                        <p>
+                            <label for="nome">Nome:</label>
+                            <input type="text" name="nome">
+                        </p>
+                        <p>
+                            <label for="endereco">Endereço:</label>
+                            <input type="text" name="endereco">
+                        </p>
+                        <p>
+                            <label for="email">Email:</label>
+                            <input type="text" name="email">
+                        </p>
+                        <p>
+                            <label for="senha">Senha:</label>
+                            <input type="text" name="senha">
+                        </p>
+                        <p>
+                            <label for="cpf">CPF:</label>
+                            <input type="number" name="cpf">
+                        </p>
+                        <p>
+                            <label for="departamento">Departamento:</label>
+                            <input type="text" name="departamento">
+                        </p>
+                        <p>
+                            <label for="instituicao">Instituição:</label>
+                            <select name="instituicao">
+                                {% for i in inst %}
+                                <option value="{{ i.id }}">{{ i.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p>
+                            <input type="submit" value="post">
+                        </p>
+                    </form>
+                    
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="instituicoes" class="tabcontent">
+                    {% for ins in inst %}
 
-    <h3>Parceiros: </h3>
-    {% for par in parca %}
-        <p>nome: {{ par.nome }}</p>
-        <p>endereco: {{ par.endereco }}</p>
-        <p>email: {{ par.email }}</p>
-        <p>cnpj: {{ par.cnpj}} </p>
-    {% endfor %}
+                        <form action="/administrador/{{ adm.id }}/inst/{{ ins.id }}" method="POST">
+                            <p>
+                                <label for="id">ID:</label>
+                                {{ ins.id }}
+                            </p>
+                            <p>
+                                <label for="nome">Nome:</label>
+                                <input type="text" name="nome">
+                            </p>
+                            <p>
+                                <input type="submit" value="post">
+                            </p>
+                        </form>
+                        
+                    {% endfor %}
+                    <h3>Adicionar instituição: </h3>
+                    <form action="/administrador/{{ adm.id }}/inst" method="POST">
+                        <p><input type="text" name="nome"></p>
+                        <p><input type="submit" value="post"></p>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="parceiros" class="tabcontent">
+                    {% for par in parca %}
 
-    <h3>Administradores: </h3>
-    {% for ad in adms %}
-        <p>nome: {{ ad.nome }}</p>
-        <p>endereco: {{ ad.endereco }}</p>
-        <p>email: {{ ad.email }}</p>
-    {% endfor %}
+                        <form action="/administrador/{{ adm.id }}/parc/{{ par.id }}" method="POST">
+                            <p>
+                                <label for="id">ID:</label>
+                                {{ par.id }}
+                            </p>
+                            <p>
+                                <label for="nome">Nome:</label>
+                                <input type="text" name="nome" value="{{ par.nome }}">
+                            </p>
+                            <p>
+                                <label for="endereco">Endereço:</label>
+                                <input type="text" name="endereco" value="{{ par.endereco }}">
+                            </p>
+                            <p>
+                                <label for="email">Email:</label>
+                                <input type="text" name="email" value="{{ par.email }}">
+                            </p>
+                            <p>
+                                <label for="senha">Senha:</label>
+                                <input type="text" name="senha" value="{{ par.senha }}">
+                            </p>
+                            <p>
+                                <label for="cnpj">CNPJ:</label>
+                                <input type="number" name="cnpj" value="{{ par.cnpj }}">
+                            </p>
+                            <p>
+                                <input type="submit" value="post">
+                            </p>
+                        </form>
+                        
+                        <form action="/administrador/{{ adm.id }}/rm/parc/{{ par.id }}" method="REMOVE">
+                            <input type="submit" value="delete">
+                        </form>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="administradores" class="tabcontent">
+                    {% for ad in adms %}
+
+                        <form action="/administrador/{{ adm.id }}/adim/{{ ad.id }}" method="POST">
+                            <p>
+                                <label for="id">ID:</label>
+                                {{ ad.id }}
+                            </p>
+                            <p>
+                                <label for="nome">Nome:</label>
+                                <input type="text" name="nome" value="{{ ad.nome }}">
+                            </p>
+                            <p>
+                                <label for="endereco">Endereço:</label>
+                                <input type="text" name="endereco" value="{{ ad.endereco }}">
+                            </p>
+                            <p>
+                                <label for="email">Email:</label>
+                                <input type="text" name="email" value="{{ ad.email }}">
+                            </p>
+                            <p>
+                                <label for="senha">Senha:</label>
+                                <input type="text" name="senha" value="{{ ad.senha }}">
+                            </p>
+                            <p>
+                                <input type="submit" value="post">
+                            </p>
+                        </form>
+                        
+                        <form action="/administrador/{{ adm.id }}/rm/adim/{{ ad.id }}" method="REMOVE">
+                            <input type="submit" value="delete">
+                        </form>
+                    {% endfor %}
+
+                    <form action="/administrador/{{ adm.id }}/adim" method="POST">
+                        <p>
+                            <label for="nome">Nome:</label>
+                            <input type="text" name="nome">
+                        </p>
+                        <p>
+                            <label for="endereco">Endereço:</label>
+                            <input type="text" name="endereco">
+                        </p>
+                        <p>
+                            <label for="email">Email:</label>
+                            <input type="text" name="email">
+                        </p>
+                        <p>
+                            <label for="senha">Senha:</label>
+                            <input type="text" name="senha">
+                        </p>
+                        <p>
+                            <input type="submit" value="post">
+                        </p>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/script.js"></script>
 
 </body>
 </html>

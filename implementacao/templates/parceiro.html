@@ -5,38 +5,113 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ parca.nome }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
 </head>
+
 <body>
-    <h3>Informaçẽos pessoais: </h3>
-    <p>nome: {{ parca.nome }}</p>
-    <p>endereco: {{ parca.endereco }}</p>
-    <p>email: {{ parca.email }}</p>
-    <p>cnpj: {{ parca.cnpj}} </p>
+    <div class="container">
+        <div class="sidebar">
+            <h3>Informações pessoais:</h3>
+            <p><label for="nome">Nome:</label> <span>{{ parca.nome }}</span></p>
+            <p><label for="endereco">Endereço:</label> <span>{{ parca.endereco }}</span></p>
+            <p><label for="email">Email:</label> <span>{{ parca.email }}</span></p>
+            <p><label for="cnpj">CNPJ:</label> <span>{{ parca.cnpj }}</span></p>           
+        </div>
 
-    <h3>Produtos disponíveis: </h3>
-    {% for p in prod %}
-        <form action="/parceiro/{{ parca.id }}/{{ p.id }}" method="POST">
-            <p>nome: {{ p.nome }}<input type="text" name="nome"/></p>
-            <p>descrição: {{ p.descricao }}<input type="text" name="descricao"/></p>
-            <p>preco: {{ p.preco }} <input type="number" name="preco"/></p>
-            <p><input type="submit" value="post"/></p>
-        </form>
-    {% endfor %}
+        <div class="tabs">
+            <div class="tab-list">
+                <li class="tablinks" onclick="openTab(event, 'produtosDisponiveis')">Produtos disponíveis</li>
+                <li class="tablinks" onclick="openTab(event, 'adicionarProduto')">Adicionar produto</li>
+                <li class="tablinks" onclick="openTab(event, 'vantagensTrocadas')">Vantagens Trocadas</li>
+            </div>
+            <div class="tab-content">
+                <div id="produtosDisponiveis" class="tabcontent">
+                    {% for p in prod %}
 
-    <h3>Adicionar produto: </h3>
-    <form action="/parceiro/{{ parca.id }}/add" method="POST">
-        <p><input type="text" name="nome" placeholder="nome" /></p>
-        <p><input type="text" name="descricao" placeholder="descricao" /></p>
-        <p><input type="number" name="preco" placeholder="preco" /></p>
-        <p><input type="submit" value="post"/></p>
-    </form>
+                        <form action="/parceiro/{{ parca.id }}/{{ p.id }}" method="POST">
+                            <p>
+                                <label for="nome">Nome:</label>
+                                <input type="text" name="nome" value="{{ p.nome }}" />
+                            </p>
+                            <p>
+                                <label for="descricao">Descrição:</label>
+                                <input type="text" name="descricao" value="{{ p.descricao }}" />
+                            </p>
+                            <p>
+                                <label for="preco">Preço:</label>
+                                <input type="number" name="preco" value="{{ p.preco }}" />
+                            </p>
+                            <p>
+                                <label for="img">Imagem:</label>
+                                <img src="/static/imgProdutos/{{ p.img }}" />
+                            </p>
+                            <p>
+                                <input type="submit" value="post" />
+                            </p>
+                        </form>  
+                        <form action="/parceiro/{{ parca.id }}/delete/{{ p.id }}" method="REMOVE">
+                            <input type="submit" value="delete">
+                        </form>
+                    {% endfor %}
+                </div>
+                <div id="adicionarProduto" class="tabcontent">
 
-    <h3>Vantagens trocadas: </h3>
-    {% for t in ta %}
-        <!-- informação sobre o produto? -->
-        <p>valor: {{ t.valor }}</p>
-        <p>data: {{ t.data }}</p>
-        <p>mensagem: {{ t.mensagem }}</p>
-    {% endfor %}
+                    <form action="/parceiro/{{ parca.id }}/add" method="POST" enctype="multipart/form-data">
+                        <p>
+                            <label for="nome">Nome: </label>
+                            <input type="text" name="nome" placeholder="Nome"  required>
+                        </p>
+                        <p>
+                            <label for="descricao">Descrição: </label>
+                            <input type="text" name="descricao" placeholder="Descrição" required>
+                        </p>
+                        <p>
+                            <label for="preco">Preco: </label>
+                            <input type="number" name="preco" placeholder="Preço" required>
+                        </p>
+
+                        <p>
+                            <label for="img">Imagem do Produto:</label>
+                            <input type="file" name="img" id="img" accept="image/*" required>
+                        </p>
+                        <p>
+                            <input type="submit" value="post" />
+                        </p>
+                        <!-- melhorar formatação -->
+                    </form>                    
+                </div>
+                <div id="vantagensTrocadas" class="tabcontent">
+                    {% for t in ta %}
+                    <p>
+                        <label for="valor">Valor:</label>
+                        <p>{{ t.valor }}</p>
+                    </p>
+                    <p>
+                        <label for="data">Data:</label>
+                        <p>{{ t.data }}</p>
+                    </p>
+                    <p>
+                        <label for="mensagem">Mensagem:</label>
+                        <p>{{ t.mensagem }}</p>
+                    </p>
+                    
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- <h3>Produtos disponíveis: </h3> -->
+
+
+    <!-- <h3>Adicionar produto: </h3> -->
+
+
+    <!-- <h3>Vantagens trocadas: </h3> -->
+    <script src="../static/script.js"></script>
 </body>
 </html>
