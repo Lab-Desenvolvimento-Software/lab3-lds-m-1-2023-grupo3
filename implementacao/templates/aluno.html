@@ -41,6 +41,10 @@
                     <p><label for="data">Data:</label> <span>{{ t.data }}</span></p>
                     <p><label for="mensagem">Mensagem:</label> <span>{{ t.mensagem }}</span></p>                    
                     {% endfor %}
+                    <form action="/aluno/{{ aluno.id }}/relatorio" method="POST">
+                        <label for="relatorio">Gerar Relatório</label>
+                        <input type="submit" value="post" />
+                    </form>
                 </div>
 
                 <div id="transacoesFeitas" class="tabcontent">
@@ -50,6 +54,10 @@
                     <p><label for="data">Data:</label> <span>{{ a.data }}</span></p>
                     <p><label for="mensagem">Mensagem:</label> <span>{{ a.mensagem }}</span></p>                    
                     {% endfor %}
+                    <form action="/aluno/{{ aluno.id }}/relatorio" method="POST">
+                        <label for="relatorio">Gerar Relatório</label>
+                        <input type="submit" value="post" />
+                    </form>
                 </div>
 
                 <div id="trocarVantagens" class="tabcontent">

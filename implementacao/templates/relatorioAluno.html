@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin: 5px 0;
+        }
+        .info {
+            font-weight: bold;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th,
+        .table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+        .table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='relatorio.css') }}"> -->
+</head>
+
+<body>
+    <div class="header">
+        <p class="info">Nome: {{ aluno.nome }}</p>
+        <p class="info">Endereço: {{ aluno.endereco }}</p>
+        <p class="info">Email: {{ aluno.email }}</p>
+        <p class="info">CPF: {{ aluno.cpf }}</p>
+        <p class="info">RG: {{ aluno.rg }}</p>
+        <p class="info">Curso: {{ aluno.curso }}</p>
+        <p class="info">Instituição: {{ inst.nome }}</p>
+    </div>
+
+    <h1>Transações recebidas</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Professor</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th>Mensagem</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in tp %}
+            <tr>
+                <td>{{ pf_nomes[t.origem] }}</td>
+                <td>{{ t.valor }}</td>
+                <td>{{ t.data }}</td>
+                <td>{{ t.mensagem }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>Transações Feitas</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Parceiro</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th>Mensagem</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in tp %}
+            <tr>
+                <td>{{ pr_nomes[a.destino] }}</td>
+                <td>{{ a.valor }}</td>
+                <td>{{ a.data }}</td>
+                <td>{{ a.mensagem }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+
+</body>
+</body>
+
+</html>

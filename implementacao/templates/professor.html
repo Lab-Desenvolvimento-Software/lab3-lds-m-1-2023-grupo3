@@ -70,6 +70,10 @@
                     </p>
                     
                     {% endfor %}
+                    <form action="/professor/{{ prof.id }}/relatorio" method="POST">
+                        <label for="relatorio">Gerar Relatório</label>
+                        <input type="submit" value="post" />
+                    </form>
                 </div>
             </div>
             <div class="tab-content">
