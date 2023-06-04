@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response
 from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
 from datetime import datetime
 from controller import *
+import weasyprint
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///moeda.db"
@@ -22,7 +23,7 @@ def cria():
     db.session.add(alun)
     db.session.commit()
 
-    prod = Produto(nome="replho", descricao="1(uma) undade de repolho", preco=50, id_parceiro=p.id)
+    prod = Produto(nome="produto", descricao="1 produto", preco=50, id_parceiro=p.id)
     db.session.add(prod)
     db.session.commit()
 
@@ -62,6 +63,23 @@ def mandarMoedas(u, j):
         #emaill pro aluno
     return redirect(url_for("professor", u=u))
 
+@app.route("/professor/<int:u>/relatorio", methods=["POST", "GET"])
+def relatorioProf(u):
+    prof = db.session.get(Professor, u) 
+    inst = db.session.get(Instituicao, prof.id_instituicao)
+    tp = Transacao.query.filter_by(origem=u).all()
+    aluno = Aluno.query.all()
+    al_nomes = {}
+    for a in Aluno.query.all():
+        al_nomes[a.id_aluno] = a.nome
+
+    html = render_template("/relatorioProf.html", prof=prof, tp=tp, aluno=aluno, al_nomes=al_nomes, inst=inst)
+    pdf = weasyprint.HTML(string=html).write_pdf()
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=relatorioProf.pdf'
+    return response
+    # return redirect(url_for("professor", u=u))
 
 # ALUNO
 @app.route("/aluno/<int:u>", methods=["POST", "GET"])
@@ -98,6 +116,27 @@ def compraProd(u, j):
         # emaill parceiro c/ codigo de identificação
     return redirect(url_for("aluno", u=u))
 
+@app.route("/aluno/<int:u>/relatorio", methods=["POST", "GET"])
+def relatorioAluno(u):
+    aluno = db.session.get(Aluno, u) #= Aluno.query.get(...)
+    inst = db.session.get(Instituicao, aluno.id_instituicao)
+    tp = Transacao.query.filter_by(destino=u).all()
+    tf = Transacao.query.filter_by(origem=u)
+    prof = Professor.query.all()
+    prod = Produto.query.all()
+    pf_nomes = {}
+    for p in Professor.query.all():
+        pf_nomes[p.id_professor] = p.nome
+    pr_nomes = {}
+    for pr in Parceiro.query.all():
+        pr_nomes[pr.id_parceiro] = pr.nome
+
+    html = render_template("/relatorioAluno.html", aluno=aluno, inst=inst, tp=tp, tf=tf, prod=prod, prof=prof, pf_nomes=pf_nomes, pr_nomes=pr_nomes)
+    pdf = weasyprint.HTML(string=html).write_pdf()
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=relatorioAluno.pdf'
+    return response
 
 #PARCEIRO
 @app.route("/parceiro/<int:u>", methods=["POST", "GET"])
