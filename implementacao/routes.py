@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, make_response
-from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
-from datetime import datetime
+from flask import Flask, render_template, request, redirect, url_for
+from model import Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, db
+# from datetime import datetime
 from controllers import Professor_controller, Aluno_controller, Administrador_controller, Login_controller, Parceiro_controller
 # from app import app
-import weasyprint
+# import weasyprint
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///moeda.db"
@@ -31,7 +31,7 @@ def cria():
 # usado pra criar o bd
 with app.app_context():
     db.create_all()
-    # cria()
+    cria()
 
 
 #PROFESSOR
