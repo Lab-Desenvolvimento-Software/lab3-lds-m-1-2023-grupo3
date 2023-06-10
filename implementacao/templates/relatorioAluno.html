@@ -51,7 +51,7 @@
         <p class="info">Instituição: {{ inst.nome }}</p>
     </div>
 
-    <h1>Transações recebidas</h1>
+    <h1>Transações Recebidas</h1>
     <table class="table">
         <thead>
             <tr>
@@ -84,7 +84,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for a in tp %}
+            {% for a in tf %}
             <tr>
                 <td>{{ pr_nomes[a.destino] }}</td>
                 <td>{{ a.valor }}</td>
