@@ -56,14 +56,18 @@
                                 <label for="rg">RG:</label>
                                 <input type="number" name="rg" value="{{ al.rg }}">
                             </p>
-                            
-                            <label for="curso">Curso:</label>
-                            <input type="text" name="curso" value="{{ al.curso }}">
-                            <P>instituicão: {{ al.instituicao }}<select name="instituicao">
-                                {% for i in inst %}
-                                    <option value="{{ i.id }}">{{ i.nome }}</option>
-                                {% endfor %}
-                            </select></P>
+                            <p>
+                                <label for="curso">Curso:</label>
+                               <input type="text" name="curso" value="{{ al.curso }}">
+                            </p>
+                            <p>
+                                <label>instituicão: </label>
+                                <select name="instituicao">
+                                    {% for i in inst %}
+                                        <option value="{{ i.id }}">{{ i.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
                             <p>
                                 <label for="moedas">Moedas: </label>
                                 <input type="number" name="moedas" value="{{ al.moedas }}">
@@ -177,7 +181,8 @@
                             </p>
                             <p>
                                 <label for="nome">Nome:</label>
-                                <input type="text" name="nome">
+                                <input type="text" name="nome"> 
+                                <!-- adicionar nome usado no momento -->
                             </p>
                             <p>
                                 <input type="submit" value="post">
