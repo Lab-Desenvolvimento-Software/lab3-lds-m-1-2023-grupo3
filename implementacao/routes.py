@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
 from datetime import datetime
-from controller import *
+from controllers import Professor_controller, Aluno_controller, Administrador_controller, Login_controller, Parceiro_controller
 # from app import app
 import weasyprint
 
