@@ -1,7 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, make_response
-from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
-from datetime import datetime
-import weasyprint
+from flask import render_template, request
+from model import Aluno, Professor,  Parceiro, Administrador, Instituicao, db
 
 def dados(u):
         adm = db.session.get(Administrador, u)

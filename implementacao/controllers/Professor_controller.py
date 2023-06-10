@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, make_response
-from model import Usuario, Aluno, Professor,  Parceiro, Administrador, Instituicao, Produto, Transacao, db
+from flask import render_template, request, make_response
+from model import Aluno, Professor, Instituicao, Transacao, db
 from datetime import datetime
 import weasyprint
 
