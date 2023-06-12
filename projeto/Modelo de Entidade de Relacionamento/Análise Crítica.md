@@ -1,4 +1,4 @@
-Análise Crítica do Projeto
+# Análise Crítica do Projeto
 
 A documentação desempenhou um papel crucial no entendimento global do sistema, permitindo a identificação de falhas de design e 
 áreas que poderiam ser aprimoradas. 
